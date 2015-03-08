@@ -52,6 +52,23 @@ void CrewHelmsUI::onCrewUI()
         if (sf::length(diff) < 400)
             my_spaceship->commandTargetRotation(sf::vector2ToAngle(diff));
     }
+    else if (InputHandler::joystickHasMoved())
+    {
+        my_spaceship->commandTargetRotation(sf::vector2ToAngle(InputHandler::getJoystickPosXY()));
+        /*
+        std::ostringstream X_stream;
+        std::ostringstream Y_stream;
+        std::ostringstream Angle_stream;
+        joystickPosition = InputHandler::getJoystickPosXY();
+            X_stream << joystickPosition.x;
+            Y_stream << joystickPosition.y;
+            Angle_stream << sf::vector2ToAngle(InputHandler::getJoystickPosXY());
+
+        LOG(DEBUG) << "Joystick (X, Y): " << X_stream.str() << ", " << Y_stream.str();
+        LOG(DEBUG) << "Joystick Angle:  " << Angle_stream.str();
+        */
+    }
+
 
     sf::VertexArray ghost_dots(sf::Points, ghost_dot.size());
     for(unsigned int n=0; n<ghost_dot.size(); n++)
@@ -99,7 +116,7 @@ void CrewHelmsUI::onCrewUI()
     }
 
     dockingButton(sf::FloatRect(20, 800, 280, 50), 30);
-    
+
     x = getWindowSize().x - 300;
     if (my_spaceship->combat_maneuver_delay > 0)
     {

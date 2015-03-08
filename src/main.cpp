@@ -73,7 +73,7 @@ int main(int argc, char** argv)
         *value++ = '\0';
         startup_parameters[string(argv[n]).strip()] = string(value).strip();
     }
-    
+
     new Engine();
     new DirectoryResourceProvider("resources/");
     new DirectoryResourceProvider("scripts/");
@@ -83,7 +83,7 @@ int main(int argc, char** argv)
     textureManager.setDefaultRepeated(true);
     textureManager.setAutoSprite(false);
     textureManager.getTexture("Tokka_WalkingMan.png", sf::Vector2i(6, 1));
-    
+
     if (startup_parameters["httpserver"].toInt() != 0)
     {
         LOG(INFO) << "Enabling HTTP script access.";
@@ -135,6 +135,13 @@ int main(int argc, char** argv)
     }else{
         engine->registerObject("mouseRenderer", new MouseRenderer());
     }
+
+    if (startup_parameters["joystick"].toInt())
+    {
+        InputHandler::joystick = true;
+        InputHandler::joystickHysteresis = startup_parameters["joystick_hysteresis"].toInt();
+    }
+
     if (startup_parameters["touchcalibfile"] != "")
     {
         FILE* f = fopen(startup_parameters["touchcalibfile"].c_str(), "r");
@@ -146,7 +153,7 @@ int main(int argc, char** argv)
             fclose(f);
         }
     }
-    
+
     if (startup_parameters.find("music_volume") != startup_parameters.end())
         soundManager.setMusicVolume(startup_parameters["music_volume"].toFloat());
     else
@@ -178,19 +185,19 @@ int main(int argc, char** argv)
         P<ScriptObject> shipTemplatesScript = new ScriptObject("shipTemplates.lua");
         if (shipTemplatesScript)
             shipTemplatesScript->destroy();
-        
+
         P<ScriptObject> factionInfoScript = new ScriptObject("factionInfo.lua");
         if (factionInfoScript)
             factionInfoScript->destroy();
-        
+
         fillDefaultDatabaseData();
-        
+
         P<ScriptObject> scienceInfoScript = new ScriptObject("science_db.lua");
         if (scienceInfoScript)
             scienceInfoScript->destroy();
     }
     returnToMainMenu();
-    
+
     engine->runMainLoop();
 
     f = fopen("options.ini", "w");
@@ -209,9 +216,9 @@ int main(int argc, char** argv)
         }
         fclose(f);
     }
-    
+
     delete engine;
-    
+
     return 0;
 }
 
