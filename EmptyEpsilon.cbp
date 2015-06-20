@@ -534,8 +534,6 @@
 		<Unit filename="src/pathPlanner.h" />
 		<Unit filename="src/playerInfo.cpp" />
 		<Unit filename="src/playerInfo.h" />
-		<Unit filename="src/preferenceManager.cpp" />
-		<Unit filename="src/preferenceManager.h" />
 		<Unit filename="src/repairCrew.cpp" />
 		<Unit filename="src/repairCrew.h" />
 		<Unit filename="src/scienceDatabase.cpp" />
@@ -644,6 +642,8 @@
 		<Unit filename="src/spaceObjects/explosionEffect.h" />
 		<Unit filename="src/spaceObjects/homingMissile.cpp" />
 		<Unit filename="src/spaceObjects/homingMissile.h" />
+		<Unit filename="src/spaceObjects/jumpGate.cpp" />
+		<Unit filename="src/spaceObjects/jumpGate.h" />
 		<Unit filename="src/spaceObjects/mine.cpp" />
 		<Unit filename="src/spaceObjects/mine.h" />
 		<Unit filename="src/spaceObjects/missileWeapon.cpp" />
