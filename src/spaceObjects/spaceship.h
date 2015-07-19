@@ -229,6 +229,23 @@ public:
      * \param info Information about damage type (usefull for damage reduction, etc)
      */
     virtual void takeHullDamage(float damage_amount, DamageInfo info);
+    
+    /*!
+     * Explode and destroy the ship, giving reputation points to the instigator in DamageInfo
+     * \param damage_amount Damage to be delt.
+     * \param info Information about damage type (usefull for damage reduction, etc)
+     */
+    virtual void destroyShip(DamageInfo& info);
+    
+    /*!
+     * Blow up the ship and take everyone close with you
+     * \param nr_of_explosions Number of secondary explosions to create surrounding the ship
+     * \param blast_range of the primary explosion
+     * \param min_damage of the primary explosion
+     * \param max_damage of the primary explosion
+     * \param min_range of the primary explosion
+     */
+    virtual void selfDestruct(int nr_of_explosions, float blast_range, float min_damage, float max_damage, float min_range);
 
     /*!
      * Jump in current direction
