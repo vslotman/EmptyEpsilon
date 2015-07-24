@@ -1,6 +1,7 @@
 #ifndef WORMHOLE_H
 #define WORMHOLE_H
 
+#include "nebula.h"
 #include "spaceObject.h"
 #include "pathPlanner.h"
 
@@ -9,11 +10,15 @@ class WormHole : public SpaceObject, public Updatable
     sf::Vector2f target_position = sf::Vector2f(0.0f, 0.0f);
     float update_delta = 0.0f;
     P<PathPlannerManager>  pathPlanner;
+    
+    static const int cloud_count = 5;
+    NebulaCloud clouds[cloud_count];
 
 public:
 
     WormHole();
 
+    virtual void draw3DTransparent();
     virtual void drawOnRadar(sf::RenderTarget& window, sf::Vector2f position, float scale, bool long_range);
     virtual void drawOnGMRadar(sf::RenderTarget& window, sf::Vector2f position, float scale, bool long_range);
     virtual void update(float delta);
