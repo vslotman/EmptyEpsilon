@@ -11,6 +11,7 @@ class WormHole : public SpaceObject, public Updatable
     float update_delta = 0.0f;
     P<PathPlannerManager>  pathPlanner;
     
+    int radar_visual;
     static const int cloud_count = 5;
     NebulaCloud clouds[cloud_count];
 

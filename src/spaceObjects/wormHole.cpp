@@ -8,7 +8,7 @@
 #define FORCE_MULTIPLIER          50.0
 #define FORCE_MAX                 10000.0
 #define ALPHA_MULTIPLIER          10.0
-#define DEFAULT_COLLISION_RADIUS  5000
+#define DEFAULT_COLLISION_RADIUS  2500
 #define AVOIDANCE_MULTIPLIER      1.2
 #define TARGET_SPREAD             500
 
@@ -23,6 +23,10 @@ WormHole::WormHole()
 {
     pathPlanner = PathPlannerManager::getInstance();
     pathPlanner->addAvoidObject(this, (DEFAULT_COLLISION_RADIUS * AVOIDANCE_MULTIPLIER) );
+    
+    // Which texture to show on radar
+    radar_visual = irandom(1, 3);
+    registerMemberReplication(&radar_visual);
     
     // Create some overlaying clouds
     for(int n=0; n<cloud_count; n++)
@@ -50,7 +54,7 @@ void WormHole::draw3DTransparent()
         if (alpha < 0.0)
             continue;
 
-        billboardShader->setParameter("textureMap", *textureManager.getTexture("Nebula" + string(cloud.texture) + ".png"));
+        billboardShader->setParameter("textureMap", *textureManager.getTexture("wormHole" + string(cloud.texture) + ".png"));
         sf::Shader::bind(billboardShader);
         glBegin(GL_QUADS);
         glColor4f(alpha * 0.8, alpha * 0.8, alpha * 0.8, size);
@@ -70,12 +74,14 @@ void WormHole::draw3DTransparent()
 
 void WormHole::drawOnRadar(sf::RenderTarget& window, sf::Vector2f position, float scale, bool long_range)
 {
-    sf::Sprite objectSprite;
-    textureManager.setTexture(objectSprite, "icon_wormhole.png");
-    objectSprite.setRotation(getRotation());
-    objectSprite.setPosition(position);
-    objectSprite.setScale(0.8, 0.8);
-    window.draw(objectSprite);
+    sf::Sprite object_sprite;
+    textureManager.setTexture(object_sprite, "wormHole" + string(radar_visual) + ".png");
+    object_sprite.setRotation(getRotation());
+    object_sprite.setPosition(position);
+    float size = getRadius() * scale / object_sprite.getTextureRect().width * 3.0;
+    object_sprite.setScale(size, size);
+    object_sprite.setColor(sf::Color(255, 255, 255));
+    window.draw(object_sprite, sf::RenderStates(sf::BlendAdd));
 }
 
 /* Draw a line towards the target position */
@@ -86,6 +92,14 @@ void WormHole::drawOnGMRadar(sf::RenderTarget& window, sf::Vector2f position, fl
     a[1].position = position + (target_position - getPosition()) * scale;
     a[0].color = sf::Color(255, 255, 255, 32);
     window.draw(a);
+    
+    sf::CircleShape range_circle(getRadius() * scale);
+    range_circle.setOrigin(getRadius() * scale, getRadius() * scale);
+    range_circle.setPosition(position);
+    range_circle.setFillColor(sf::Color::Transparent);
+    range_circle.setOutlineColor(sf::Color(255, 255, 255, 32));
+    range_circle.setOutlineThickness(2.0);
+    window.draw(range_circle);
 }
 
 
