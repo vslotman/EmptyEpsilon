@@ -19,6 +19,8 @@ public:
     
     //Configure the device.
     virtual bool configure(std::unordered_map<string, string> settings);
+    
+    virtual bool configureChannel(int channel_id, std::unordered_map<string, string> settings) { return false; };
 
     //Set a hardware channel output. Value is 0.0 to 1.0 for no to max output.
     virtual void setChannelData(int channel, float value);

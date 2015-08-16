@@ -19,6 +19,8 @@ private:
     int max_active_requests;
     sf::Thread update_thread;
     
+    channelMask channel_mask;
+    
     bool run_thread;
 public:
     HTTPRequestDevice();
