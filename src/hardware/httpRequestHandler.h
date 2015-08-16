@@ -5,7 +5,12 @@
 #include <SFML/Network/Http.hpp>
 #include <SFML/System/Time.hpp>
 #include <stdint.h>
+#include "stringImproved.h"
+#include <unordered_map>
 #include "hardwareOutputDevice.h"
+
+// Lazy accounting for # of channls
+extern volatile uint16_t active_requests;
 
 enum httpRequestMethod{
     HTTP_GET = 0,
@@ -14,9 +19,9 @@ enum httpRequestMethod{
 
 struct HTTPChannel
 {
-    string host;
-    string uri;
-    uint16_t port = 80;
+    string host;    // No default, must be set
+    string uri      = "";
+    uint16_t port   = 80;
     uint8_t timeout = 5;
 };
 
@@ -29,12 +34,14 @@ class HTTPRequestHandler
     sf::Thread         request_thread;
 
     bool run_thread;
+    bool is_ready = false;
 public:
     // Initializer just an url and port
     HTTPRequestHandler(HTTPChannel * target);
     HTTPRequestHandler(HTTPChannel target, std::unordered_map<string, string> parameters);
 
     virtual ~HTTPRequestHandler();
+    bool isReady();
 private:
     void performRequest();
 };

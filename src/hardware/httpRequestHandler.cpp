@@ -1,5 +1,6 @@
 #include "httpRequestHandler.h"
 #include "logging.h"
+#include "stringImproved.h"
 
 HTTPRequestHandler::HTTPRequestHandler(HTTPChannel * target)
 : request_thread(&HTTPRequestHandler::performRequest, this)
@@ -10,11 +11,16 @@ HTTPRequestHandler::HTTPRequestHandler(HTTPChannel * target)
 
 HTTPRequestHandler::~HTTPRequestHandler()
 {
+    if (!isReady())
+    {
+        LOG(WARNING) << "Terminating request for " << target_channel->host << ":" << target_channel->port << "/" << target_channel->uri;
+        request_thread.terminate();
+        is_ready = false;
+    }
 }
 
-
 void HTTPRequestHandler::performRequest()
-{
+{    
     // Create a new HTTP client
     sf::Http http;
     sf::Time request_timeout = sf::seconds(target_channel->timeout);
@@ -30,10 +36,16 @@ void HTTPRequestHandler::performRequest()
     
     if (status == sf::Http::Response::Ok)
     {
-        //std::cout << response.getBody() << std::endl;
+        LOG(INFO) << response.getBody();
     }
     else
     {
-        //std::cout << "Error " << status << std::endl;
+        LOG(ERROR) << "Error " << status;
     }
+    is_ready = true;
+}
+
+bool HTTPRequestHandler::HTTPRequestHandler::isReady()
+{
+    return is_ready;
 }
