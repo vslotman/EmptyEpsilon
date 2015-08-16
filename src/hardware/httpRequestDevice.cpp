@@ -35,6 +35,9 @@ bool HTTPRequestDevice::configure(std::unordered_map<string, string> settings)
     else
         refresh_interval = sf::milliseconds(DEFAULT_REQUEST_INTERVAL);
         
+    if (settings["channels"] != "")
+        channel_mask = configureChannelMask(settings["channels"]);
+        
     return true;
 }
 

@@ -3,6 +3,7 @@
 
 #include "engine.h"
 #include "hardwareOutputDevice.h"
+#include "httpRequestDevice.h"
 
 class HardwareOutputDevice;
 class HardwareMappingEffect;
@@ -54,6 +55,7 @@ private:
     std::vector<HardwareMappingState> states;
     std::vector<HardwareMappingEvent> events;
     std::vector<float> channels;
+    HTTPRequestDevice* http_device = nullptr;
 public:
     HardwareController();
     ~HardwareController();
