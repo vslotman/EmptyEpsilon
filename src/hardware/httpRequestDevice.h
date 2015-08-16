@@ -2,27 +2,38 @@
 #define HTTP_REQUEST_DEVICE_H
 
 #include <SFML/System.hpp>
-#include <stdint.h>
+//#include <stdint.h>
 #include "hardwareOutputDevice.h"
 #include "httpRequestHandler.h"
+//#include "stringImproved.h"
+
 
 //The HTTPRequestDevice can talk to Open DMX USB hardware, and just about any hardware which is just an serial port connected to a line driver.
 class HTTPRequestDevice : public HardwareOutputDevice
 {
-    uint8_t timeout;
-    uint16_t channel_count;
-    uint16_t active_requests;
-    std::map<int, HTTPChannel> channels;
-    std::vector<HTTPRequestHandler> requests;
+private:
+    int timeout;
+    sf::Time refresh_interval;
+    std::unordered_map<int, HTTPChannel*> channels;
+    std::vector<HTTPRequestHandler*> active_requests;
+    int max_active_requests;
+    sf::Thread update_thread;
+    
+    bool run_thread;
 public:
     HTTPRequestDevice();
-    ~HTTPRequestDevice();
+    virtual ~HTTPRequestDevice();
+    
     //Configure the device.
     // Parameter: port: name of the serial port to connect to.
     virtual bool configure(std::unordered_map<string, string> settings);
 
-    //virtual bool configureChannel(std::unordered_map<string, string> settings);
-    virtual void addChannel(int channel_id, string host, string uri);
+    virtual bool configureChannel(int channel_id, std::unordered_map<string, string> settings);
+    
+    //void addChannelHost(int channel, string host);
+    
+    //void addChannelUri(int channel, string uri);
+    //void add
 
     //Set a hardware channel output. Value is 0.0 to 1.0 for no to max output.
     virtual void setChannelData(int channel, float value);
@@ -30,6 +41,8 @@ public:
 
     //Return the number of output channels supported by this device.
     virtual int getChannelCount();
+private:
+    void updateLoop();
 };
 
 
