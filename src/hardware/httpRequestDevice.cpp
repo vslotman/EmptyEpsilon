@@ -59,12 +59,11 @@ bool HTTPRequestDevice::configureChannel(int channel_id, std::unordered_map<stri
     if (settings.find("port") != settings.end())
         channel->port = settings["port"].toInt();
     if (settings.find("timeout") != settings.end())
-        channel->port = settings["timeout"].toInt();
-        
-    LOG(INFO) << channel->uri;
+        channel->timeout = settings["timeout"].toInt();
 
-    channels[channel_id] = channel;
-    LOG(INFO) << "added channel";
+    channel_list[channel_id] = channel;
+
+    LOG(INFO) << "HTTPRequestDevice: Added channel #" <<channel_id << ": " << channel->host << ":" << channel->port << "/" << channel->uri;
     
     return true;
 }
@@ -72,18 +71,23 @@ bool HTTPRequestDevice::configureChannel(int channel_id, std::unordered_map<stri
 //Set a hardware channel output. Value is 0.0 to 1.0 for no to max output.
 void HTTPRequestDevice::setChannelData(int channel, float value)
 {
-    if (channels.find(channel) != channels.end() && 
-        active_requests.size() <= DEFAULT_MAX_REQUESTS)
+    if (active_requests.size() >= DEFAULT_MAX_REQUESTS)
     {
-        //HTTPRequestHandler request = nullptr;
-        
-        HTTPRequestHandler *request = new HTTPRequestHandler(channels[channel]);
-        active_requests.push_back(request);
-        LOG(DEBUG) << "Spawned request for channel #" << channel;
+        LOG(ERROR) << "Reached maximum concurrent requests";
+        return;     
     }
-    else
+    else if (!channel_mask[channel])
     {
         LOG(ERROR) << "Unknown HTTP channel id " << channel;
+        return;
+    }
+    else if (channel_list[channel]->value != value)
+    {
+        channel_list[channel]->value = value;
+        LOG(DEBUG) << "Spawning request for channel #" << channel;
+        
+        HTTPRequestHandler *request = new HTTPRequestHandler(channel_list[channel]);
+        active_requests.push_back(request);
     }
 }
 

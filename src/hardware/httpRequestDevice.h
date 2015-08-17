@@ -14,7 +14,7 @@ class HTTPRequestDevice : public HardwareOutputDevice
 private:
     int timeout;
     sf::Time refresh_interval;
-    std::unordered_map<int, HTTPChannel*> channels;
+    std::unordered_map<int, HTTPChannel*> channel_list;
     std::vector<HTTPRequestHandler*> active_requests;
     int max_active_requests;
     sf::Thread update_thread;

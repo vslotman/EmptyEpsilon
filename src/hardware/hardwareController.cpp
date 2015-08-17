@@ -96,7 +96,8 @@ void HardwareController::handleConfig(string section, std::unordered_map<string,
         {
             LOG(INFO) << "Added HTTP-device";
             //device = new HTTPRequestDevice();   
-            http_device = new HTTPRequestDevice();      
+            http_device = new HTTPRequestDevice();
+            device = (HardwareOutputDevice*) http_device;
             LOG(INFO) << "New hardware device: " << settings["device"];
             //devices.push_back(http_device);    
         }
