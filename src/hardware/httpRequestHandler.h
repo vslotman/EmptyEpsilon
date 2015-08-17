@@ -23,6 +23,7 @@ struct HTTPChannel
     string uri      = "";
     uint16_t port   = 80;
     uint8_t timeout = 5;
+    float value     = 0;
 };
 
 
