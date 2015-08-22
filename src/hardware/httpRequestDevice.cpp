@@ -2,7 +2,8 @@
 #include "logging.h"
 
 #define DEFAULT_MAX_REQUESTS     100
-#define DEFAULT_REQUEST_INTERVAL 500
+#define DEFAULT_REQUEST_INTERVAL 0.5
+#define DEFAULT_TIMEOUT          5
 
 HTTPRequestDevice::HTTPRequestDevice()
 : update_thread(&HTTPRequestDevice::updateLoop, this)
@@ -28,22 +29,30 @@ bool HTTPRequestDevice::configure(std::unordered_map<string, string> settings)
     if (settings["timeout"] != "")
         timeout = settings["timeout"].toInt();
     else
-        timeout = 5;
+        timeout = DEFAULT_TIMEOUT;
         
     if (settings["refresh_interval"] != "")
-        refresh_interval = sf::milliseconds(settings["refresh_interval"].toInt());
+        refresh_interval = sf::seconds(settings["refresh_interval"].toInt());
     else
-        refresh_interval = sf::milliseconds(DEFAULT_REQUEST_INTERVAL);
+        refresh_interval = sf::seconds(DEFAULT_REQUEST_INTERVAL);
         
     if (settings["channels"] != "")
         channel_mask = configureChannelMask(settings["channels"]);
+    else
+        channel_mask = configureChannelMask("");
+    
+    if (settings["channel_offset"] != "")
+        channel_offset = settings["channel_offset"].toInt();
+    
         
     return true;
 }
 
+// Parse the settings from hardware.ini to configure the channel
 bool HTTPRequestDevice::configureChannel(int channel_id, std::unordered_map<string, string> settings)
 {
     HTTPChannel* channel = new HTTPChannel();
+    channel_id -= channel_offset; // Shift channel_id. Local channel goes from 0 - 512
     
     if (settings.find("host") == settings.end())
     {
@@ -68,9 +77,11 @@ bool HTTPRequestDevice::configureChannel(int channel_id, std::unordered_map<stri
     return true;
 }
 
-//Set a hardware channel output. Value is 0.0 to 1.0 for no to max output.
+//Set a hardware channel output. For now, data only gets sent if value changes.
 void HTTPRequestDevice::setChannelData(int channel, float value)
 {
+    channel -= channel_offset;
+    
     if (active_requests.size() >= DEFAULT_MAX_REQUESTS)
     {
         LOG(ERROR) << "Reached maximum concurrent requests";
@@ -78,10 +89,10 @@ void HTTPRequestDevice::setChannelData(int channel, float value)
     }
     else if (!channel_mask[channel])
     {
-        LOG(ERROR) << "Unknown HTTP channel id " << channel;
         return;
     }
-    else if (channel_list[channel]->value != value)
+    else if ( (channel_list.find(channel) != channel_list.end()) && 
+              (channel_list[channel]->value != value))
     {
         channel_list[channel]->value = value;
         LOG(DEBUG) << "Spawning request for channel #" << channel;
@@ -91,16 +102,22 @@ void HTTPRequestDevice::setChannelData(int channel, float value)
     }
 }
 
-//Return the number of output channels supported by this device.
+//Set a hardware channel output. For now, data only gets sent if value changes.
 int HTTPRequestDevice::getChannelCount()
 {
-    return 2;
+    int i;
+    
+    for (i = channelMask.size(); i > 0; i--)
+        if (channelMask[i])
+            return i;
+        
+    return i;
 }
 
+// Loop over list of active channels, removing those that have finished
 void HTTPRequestDevice::updateLoop()
 {
     uint32_t i;
-    
     
     while (run_thread)
     {
