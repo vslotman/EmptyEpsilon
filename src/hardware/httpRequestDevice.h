@@ -8,11 +8,11 @@
 //#include "stringImproved.h"
 
 
-//The HTTPRequestDevice can talk to Open DMX USB hardware, and just about any hardware which is just an serial port connected to a line driver.
+//The HTTPRequestDevice make HTTP-requests based on events. Requests are only sent on a change of value
 class HTTPRequestDevice : public HardwareOutputDevice
 {
 private:
-    int timeout;
+    float timeout;
     sf::Time refresh_interval;
     std::unordered_map<int, HTTPChannel*> channel_list;
     std::vector<HTTPRequestHandler*> active_requests;
@@ -30,12 +30,8 @@ public:
     // Parameter: port: name of the serial port to connect to.
     virtual bool configure(std::unordered_map<string, string> settings);
 
+    // Configure the channel: Setup host, port, uri and other stuff.
     virtual bool configureChannel(int channel_id, std::unordered_map<string, string> settings);
-    
-    //void addChannelHost(int channel, string host);
-    
-    //void addChannelUri(int channel, string uri);
-    //void add
 
     //Set a hardware channel output. Value is 0.0 to 1.0 for no to max output.
     virtual void setChannelData(int channel, float value);

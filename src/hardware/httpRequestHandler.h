@@ -9,21 +9,13 @@
 #include <unordered_map>
 #include "hardwareOutputDevice.h"
 
-// Lazy accounting for # of channls
-extern volatile uint16_t active_requests;
-
-enum httpRequestMethod{
-    HTTP_GET = 0,
-    HTTP_POST,
-};
-
 struct HTTPChannel
 {
     string host;    // No default, must be set
     string uri      = "";
     uint16_t port   = 80;
     uint8_t timeout = 5;
-    float value     = 0;
+    float value     = 0.1;
 };
 
 
@@ -31,7 +23,6 @@ struct HTTPChannel
 class HTTPRequestHandler
 {
     HTTPChannel        *target_channel;
-    httpRequestMethod  method = HTTP_GET;
     sf::Thread         request_thread;
 
     bool run_thread;
