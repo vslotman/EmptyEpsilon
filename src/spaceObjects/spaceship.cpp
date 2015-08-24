@@ -860,10 +860,20 @@ void SpaceShip::takeHullDamage(float damage_amount, DamageInfo info)
         }
     }
 
-    hull_strength -= damage_amount;
-    if (hull_strength <= 0.0)
+    if ( (confirm_destruction_pending == false) || 
+         (destruction_confirmed == true)
     {
-        destroyShip(info);
+        if ( (hull_strength - damage_amount) <= 0.0) &&
+             (destruction_confirmed == false)
+        {
+            confirm_destruction_pending = true;
+        }
+        else
+        {
+            hull_strength -= damage_amount;
+            if (hull_strength <= 0.0)
+                destroyShip(info);
+        }
     }
 }
 
