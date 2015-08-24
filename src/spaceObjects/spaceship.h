@@ -185,6 +185,9 @@ public:
     EDockingState docking_state;
     P<SpaceObject> docking_target; //Server only
     sf::Vector2f docking_offset; //Server only
+    
+    bool confirm_destruction_pending = false;
+    bool destruction_confirmed = false;
 
     SpaceShip(string multiplayerClassName, float multiplayer_significant_range=-1);
 
