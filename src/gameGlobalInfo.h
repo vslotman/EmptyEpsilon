@@ -65,6 +65,7 @@ public:
     bool use_system_damage;
     bool allow_main_screen_tactical_radar;
     bool allow_main_screen_long_range_radar;
+    bool gm_confirm_destroy; // Pop up a timer in the GM-console.
 
     GameGlobalInfo();
 
