@@ -554,6 +554,8 @@
 		<Unit filename="src/screenComponents/combatManeuver.h" />
 		<Unit filename="src/screenComponents/commsOverlay.cpp" />
 		<Unit filename="src/screenComponents/commsOverlay.h" />
+		<Unit filename="src/screenComponents/confirmActionControl.cpp" />
+		<Unit filename="src/screenComponents/confirmActionControl.h" />
 		<Unit filename="src/screenComponents/dockingButton.cpp" />
 		<Unit filename="src/screenComponents/dockingButton.h" />
 		<Unit filename="src/screenComponents/frequencyCurve.cpp" />
