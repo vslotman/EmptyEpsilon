@@ -6,8 +6,9 @@
 class GuiShieldFrequencySelect : public GuiBox
 {
 private:
-    GuiLabel* current_frequency;
-    GuiSelector* new_frequency;
+    GuiLabel* current_frequency = nullptr;
+    GuiSelector* new_frequency  = nullptr;
+    
     GuiButton* calibrate_button;
     GuiProgressbar* calibrate_progressbar;
 public:
