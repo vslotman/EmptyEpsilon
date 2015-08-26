@@ -4,6 +4,8 @@
 #include "engine.h"
 #include "gui/gui2.h"
 #include "screenComponents/radarView.h"
+#include "screenComponents/confirmActionControl.h"
+#include "screenComponents/confirmActionControlContainer.h"
 
 class GuiGlobalMessageEntry;
 class GuiObjectCreationScreen;
@@ -19,6 +21,7 @@ private:
     GuiRadarView* main_radar;
     GuiOverlay* box_selection_overlay;
     GuiSelector* faction_selector;
+    GuiConfirmActionControlContainer* controlContainer;
     
     GuiGlobalMessageEntry* global_message_entry;
     GuiObjectCreationScreen* object_creation_screen;

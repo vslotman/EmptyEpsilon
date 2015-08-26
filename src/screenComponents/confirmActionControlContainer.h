@@ -11,6 +11,8 @@ public:
     
 private:
     std::vector<GuiConfirmActionControl*> control_list;
+    std::vector<P<SpaceShip>> item_list;
+    
     int max_size = 5;
     
 public:
@@ -19,7 +21,7 @@ public:
     
     void setMaxSize(int maximum_size) {max_size = maximum_size; };
     
-    bool addItem(string text, func_t confirm, func_t cancel, float timeout);
+    bool addItem(string text, P<SpaceShip> obj, func_t confirm, func_t cancel, float timeout);
     bool addItem(GuiConfirmActionControl*);
     void update();
 };

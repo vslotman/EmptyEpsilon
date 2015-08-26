@@ -11,8 +11,11 @@ GuiConfirmActionControlContainer::~GuiConfirmActionControlContainer()
     control_list.clear();
 }
 
-bool GuiConfirmActionControlContainer::addItem(string text, func_t confirm, func_t cancel, float timeout)
+bool GuiConfirmActionControlContainer::addItem(string text, P<SpaceShip> obj, func_t confirm, func_t cancel, float timeout)
 {
+    if (std::find(item_list.begin(), item_list.end(), obj) != item_list.end())
+        return false;
+    
     GuiConfirmActionControl* item = new GuiConfirmActionControl(this, text, confirm, cancel, timeout);
     return addItem(item);
 }

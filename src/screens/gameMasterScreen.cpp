@@ -9,6 +9,7 @@
 GameMasterScreen::GameMasterScreen()
 : click_and_drag_state(CD_None)
 {
+                                                                        
     main_radar = new GuiRadarView(this, "MAIN_RADAR", 50000.0f, &targets);
     main_radar->setStyle(GuiRadarView::Rectangular)->longRange()->gameMaster()->enableTargetProjections();
     main_radar->setPosition(0, 0, ATopLeft)->setSize(GuiElement::GuiSizeMax, GuiElement::GuiSizeMax);
@@ -124,6 +125,24 @@ GameMasterScreen::GameMasterScreen()
     global_message_entry->hide();
     object_creation_screen = new GuiObjectCreationScreen(this);
     object_creation_screen->hide();
+    
+    LOG(INFO) << "CREATING STUFF";
+                                                                        
+    controlContainer = new GuiConfirmActionControlContainer(this, "sefsefesf");
+    controlContainer->setPosition(sf::Vector2f(-50, -50), ABottomRight)->setSize(300, 450);
+    controlContainer->addItem("BLAAA", 
+                              [this]() { LOG(INFO) << "CONFIRM";},
+                              [this]() { LOG(INFO) << "CANCEL";}, 10);
+    controlContainer->addItem("SFOIJOIJF", 
+                              [this]() { LOG(INFO) << "123132";},
+                              [this]() { LOG(INFO) << "34535";}, 3);
+    controlContainer->addItem("SFOIJOIJF", 
+                              [this]() { LOG(INFO) << "123132";},
+                              [this]() { LOG(INFO) << "34535";}, 5);
+    controlContainer->addItem("SFOIJOIJF", 
+                              [this]() { LOG(INFO) << "123132";},
+                              [this]() { LOG(INFO) << "34535";}, 15);
+    controlContainer->show();    
 }
 
 void GameMasterScreen::update(float delta)
@@ -143,6 +162,8 @@ void GameMasterScreen::update(float delta)
             main_radar->longRange();
     }
     
+    controlContainer->update();
+    controlContainer->setVisible(true);
     bool has_ship = false;
     bool has_cpu_ship = false;
     bool has_player_ship = false;
@@ -155,6 +176,16 @@ void GameMasterScreen::update(float delta)
                 has_cpu_ship = true;
             else if (P<PlayerSpaceship>(obj))
                 has_player_ship = true;
+                
+            if ( (P<SpaceShip>(obj))->getConfirmDestructionPending())
+            {
+                controlContainer->addItem("Destroy " + (P<SpaceShip>(obj))->getCallSign() + "?", &obj,
+                              [&]() { LOG(INFO) << "Confirmed destruction of " + (P<SpaceShip>(obj))->getCallSign();
+                                                (P<SpaceShip>(obj))->confirmDestruction();},
+                              [&]() { LOG(INFO) << "Canceled destruction of " + (P<SpaceShip>(obj))->getCallSign();
+                                                    (P<SpaceShip>(obj))->cancelConfirmDestruction();}, 
+                              30);
+            }
         }
     }
     ship_retrofit_button->setVisible(has_ship);
@@ -200,7 +231,7 @@ void GameMasterScreen::update(float delta)
     {
         info_items[cnt]->hide();
         cnt++;
-    }
+    }  
 }
 
 void GameMasterScreen::onMouseDown(sf::Vector2f position)
