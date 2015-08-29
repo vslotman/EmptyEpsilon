@@ -20,12 +20,13 @@ GameMasterScreen::GameMasterScreen()
     box_selection_overlay = new GuiOverlay(main_radar, "BOX_SELECTION", sf::Color(255, 255, 255, 32));
     box_selection_overlay->hide();
     
-    (new GuiToggleButton(this, "PAUSE_BUTTON", "Pause", [this](bool value) {
+    pause_button = new GuiToggleButton(this, "PAUSE_BUTTON", "Pause", [this](bool value) {
         if (value)
             engine->setGameSpeed(1.0f);
         else
             engine->setGameSpeed(0.0f);
-    }))->setPosition(20, 20, ATopLeft)->setSize(250, 50);
+    });
+    pause_button->setPosition(20, 20, ATopLeft)->setSize(250, 50);
     
     faction_selector = new GuiSelector(this, "FACTION_SELECTOR", [this](int index, string value) {
         for(P<SpaceObject> obj : targets.getTargets())
@@ -167,6 +168,9 @@ void GameMasterScreen::update(float delta)
         else
             main_radar->longRange();
     }
+    
+    game_speed_slider->setValue(engine->getGameSpeed());
+    pause_button->setValue((engine->getGameSpeed() == 0.0));
     
     bool has_ship = false;
     bool has_cpu_ship = false;
