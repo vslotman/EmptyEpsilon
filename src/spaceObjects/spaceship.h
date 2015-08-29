@@ -388,6 +388,11 @@ public:
     }
     
     void setWeaponTubeCount(int amount);
+    virtual bool getConfirmDestructionPending() {return confirm_destruction_pending;}
+    virtual void confirmDestruction()           {destruction_confirmed = true;}
+    virtual void cancelConfirmDestruction()     {confirm_destruction_pending = false;
+                                                 setFrontShield(10);
+                                                 setRearShield(10); }
 };
 
 float frequencyVsFrequencyDamageFactor(int beam_frequency, int shield_frequency);
