@@ -81,9 +81,16 @@ GameMasterScreen::GameMasterScreen()
     });
     player_comms_hail->setPosition(20, -220, ABottomLeft)->setSize(250, 50)->hide();
     
-    (new GuiLabel(this, "GAME_SPEED", "Game Speed", 30))->setPosition(-20, -40, ABottomRight)->setSize(250, 50);
-    
+    // Game speed slider
+    (new GuiLabel(this, "GAME_SPEED", "Game Speed", 30))->setPosition(-20, -40, ABottomRight)->setSize(250, 30);
     game_speed_slider = new GuiSlider(this, "GAME_SPEED", 0.0, 2.0, engine->getGameSpeed(), [this](float value) {
+        engine->setGameSpeed(value);
+    });
+    game_speed_slider->setPosition(-20, -20, ABottomRight)->setSize(250, 25);
+    
+    // Game speed slider
+    (new GuiLabel(this, "WEAPON_DAMAGE", "Weapon Damage", 30))->setPosition(-20, -40, ABottomRight)->setSize(250, 30);
+    game_speed_slider = new GuiSlider(this, "WEAPON_DAMAGE", 0.0, 2.0, 1.0, [this](float value) {
         engine->setGameSpeed(value);
     });
     game_speed_slider->setPosition(-20, -20, ABottomRight)->setSize(250, 25);
