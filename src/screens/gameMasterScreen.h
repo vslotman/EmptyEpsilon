@@ -33,6 +33,9 @@ private:
     GuiButton* ship_retrofit_button;
     GuiButton* ship_tweak_button;
     
+    GuiLabel*  game_speed_label;
+    GuiSlider* game_speed_slider;
+    
     enum EClickAndDragState
     {
         CD_None,

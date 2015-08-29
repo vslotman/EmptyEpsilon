@@ -81,6 +81,14 @@ GameMasterScreen::GameMasterScreen()
     });
     player_comms_hail->setPosition(20, -220, ABottomLeft)->setSize(250, 50)->hide();
     
+    (new GuiLabel(this, "GAME_SPEED", "Game Speed", 30))->setPosition(-20, -40, ABottomRight)->setSize(250, 50);
+    
+    game_speed_slider = new GuiSlider(this, "GAME_SPEED", 0.0, 2.0, engine->getGameSpeed(), [this](float value) {
+        engine->setGameSpeed(value);
+    });
+    game_speed_slider->setPosition(-20, -20, ABottomRight)->setSize(250, 25);
+    
+    
     info_layout = new GuiAutoLayout(this, "INFO_LAYOUT", GuiAutoLayout::LayoutVerticalTopToBottom);
     info_layout->setPosition(-20, 20, ATopRight)->setSize(300, GuiElement::GuiSizeMax);
     
@@ -108,7 +116,7 @@ GameMasterScreen::GameMasterScreen()
             if (P<CpuShip>(obj))
                 P<CpuShip>(obj)->orderDefendLocation(obj->getPosition());
     }))->setTextSize(20)->setSize(GuiElement::GuiSizeMax, 30);
-
+    
     hail_player_dialog = new GuiHailPlayerShip(this);
     hail_player_dialog->hide();
     hailing_player_dialog = new GuiHailingPlayerShip(this);
