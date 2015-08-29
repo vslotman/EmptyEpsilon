@@ -61,6 +61,16 @@ GameMasterScreen::GameMasterScreen()
         }
     });
     ship_retrofit_button->setPosition(20, -120, ABottomLeft)->setSize(250, 50)->hide();
+    
+    wormhole_activation_button = new GuiToggleButton(this, "ACTIVATE_WORMHOLE", "Activate", [this](bool value) {
+        for(P<WormHole> obj : targets.getTargets())
+        {
+            if (P<WormHole>(obj))
+                obj->setState(value);
+        }
+    });
+    wormhole_activation_button->setPosition(20, -120, ABottomLeft)->setSize(250, 50)->hide();
+    
     ship_tweak_button = new GuiButton(this, "TWEAK_SHIP", "Tweak", [this]() {
         for(P<SpaceObject> obj : targets.getTargets())
         {
@@ -161,6 +171,7 @@ void GameMasterScreen::update(float delta)
     bool has_ship = false;
     bool has_cpu_ship = false;
     bool has_player_ship = false;
+    bool has_wormhole = false;
     for(P<SpaceObject> obj : targets.getTargets())
     {
         if (P<SpaceShip>(obj))
@@ -171,11 +182,14 @@ void GameMasterScreen::update(float delta)
             else if (P<PlayerSpaceship>(obj))
                 has_player_ship = true;
         }
+        else if (P<WormHole>(obj))
+            has_wormhole = true;
     }
     ship_retrofit_button->setVisible(has_ship);
     ship_tweak_button->setVisible(has_ship);
     order_layout->setVisible(has_cpu_ship);
     player_comms_hail->setVisible(has_player_ship);
+    wormhole_activation_button->setVisible(has_wormhole);
     
     std::unordered_map<string, string> selection_info;
     for(P<SpaceObject> obj : targets.getTargets())
