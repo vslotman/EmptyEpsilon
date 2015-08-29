@@ -2,13 +2,7 @@
 #define HARDWARE_OUTPUT_DEVICE_H
 
 #include <unordered_map>
-#include <array>
 #include "stringImproved.h"
-
-#define DEFAULT_CHANNEL_COUNT   512
-
-// Array o booleans. true means channel is active.
-typedef std::array<bool, DEFAULT_CHANNEL_COUNT> channelMask;
 
 class HardwareOutputDevice
 {
@@ -26,12 +20,6 @@ public:
     
     //Return the number of output channels supported by this device.
     virtual int getChannelCount() = 0;
-    
-    //Return a channelMask. Can be used to mask channel activity.
-    virtual channelMask configureChannelMask(string channel_string);
-
-    // Offset of a channel. Allows multiple independent devices.
-    int channel_offset = 0;
 };
 
 #endif//HARDWARE_OUTPUT_DEVICE_H

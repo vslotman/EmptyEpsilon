@@ -36,15 +36,6 @@ bool HTTPRequestDevice::configure(std::unordered_map<string, string> settings)
     else
         refresh_interval = sf::seconds(DEFAULT_REQUEST_INTERVAL);
         
-    if (settings["channels"] != "")
-        channel_mask = configureChannelMask(settings["channels"]);
-    else
-        channel_mask = configureChannelMask("");
-    
-    if (settings["channel_offset"] != "")
-        channel_offset = settings["channel_offset"].toInt();
-    
-        
     return true;
 }
 
@@ -52,7 +43,6 @@ bool HTTPRequestDevice::configure(std::unordered_map<string, string> settings)
 bool HTTPRequestDevice::configureChannel(int channel_id, std::unordered_map<string, string> settings)
 {
     HTTPChannel* channel = new HTTPChannel();
-    channel_id -= channel_offset; // Shift channel_id. Local channel goes from 0 - 512
     
     if (settings.find("host") == settings.end())
     {
@@ -79,15 +69,15 @@ bool HTTPRequestDevice::configureChannel(int channel_id, std::unordered_map<stri
 
 //Set a hardware channel output. For now, data only gets sent if value changes.
 void HTTPRequestDevice::setChannelData(int channel, float value)
-{
-    channel -= channel_offset;
+{  
+    //LOG(DEBUG) << channel << " : " << value;
     
     if (active_requests.size() >= DEFAULT_MAX_REQUESTS)
     {
         LOG(ERROR) << "Reached maximum concurrent requests";
         return;     
     }
-    else if (!channel_mask[channel])
+    else if (!channel_list[channel])
     {
         return;
     }
@@ -105,13 +95,13 @@ void HTTPRequestDevice::setChannelData(int channel, float value)
 //Set a hardware channel output. For now, data only gets sent if value changes.
 int HTTPRequestDevice::getChannelCount()
 {
-    int i;
-    
-    for (i = channel_mask.size(); i > 0; i--)
-        if (channel_mask[i])
-            return i;
-        
-    return i;
+    int max_channel = 0;
+    for (auto channel: channel_list)
+    {
+        if (channel.first > max_channel)
+            max_channel = channel.first;
+    }
+    return (max_channel + 1);
 }
 
 // Loop over list of active channels, removing those that have finished

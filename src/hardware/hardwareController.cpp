@@ -289,8 +289,8 @@ void HardwareController::update(float delta)
             channels[event.channel_nr] = event.effect->onActive();
             if (event.start_time.getElapsedTime().asSeconds() > event.runtime)
                 event.triggered = false;
-        }else{
             event.effect->onInactive();
+        }else{
         }
     }
 
