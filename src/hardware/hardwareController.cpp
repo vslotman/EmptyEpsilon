@@ -294,9 +294,10 @@ void HardwareController::update(float delta)
         }
     }
 
-    int idx = 0;
+    
     for(HardwareOutputDevice* device : devices)
     {
+        int idx = 0;
         for(int n=0; n<device->getChannelCount(); n++)
             device->setChannelData(n, channels[idx++]);
     }

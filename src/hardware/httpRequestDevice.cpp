@@ -85,7 +85,7 @@ void HTTPRequestDevice::setChannelData(int channel, float value)
               (channel_list[channel]->value != value))
     {
         channel_list[channel]->value = value;
-        LOG(DEBUG) << "Spawning request for channel #" << channel;
+        LOG(DEBUG) << "Spawning request for channel #" << channel << " with value: " << value;;
         
         HTTPRequestHandler *request = new HTTPRequestHandler(channel_list[channel]);
         active_requests.push_back(request);
@@ -95,6 +95,7 @@ void HTTPRequestDevice::setChannelData(int channel, float value)
 //Set a hardware channel output. For now, data only gets sent if value changes.
 int HTTPRequestDevice::getChannelCount()
 {
+    /*
     int max_channel = 0;
     for (auto channel: channel_list)
     {
@@ -102,6 +103,8 @@ int HTTPRequestDevice::getChannelCount()
             max_channel = channel.first;
     }
     return (max_channel + 1);
+    */
+    return 50;
 }
 
 // Loop over list of active channels, removing those that have finished
