@@ -19,6 +19,7 @@ private:
     GuiRadarView* main_radar;
     GuiOverlay* box_selection_overlay;
     GuiSelector* faction_selector;
+    GuiToggleButton* pause_button;
     
     GuiGlobalMessageEntry* global_message_entry;
     GuiObjectCreationScreen* object_creation_screen;
