@@ -167,6 +167,11 @@ public:
     int beam_frequency;
     ESystem beam_system_target;
     BeamWeapon beam_weapons[max_beam_weapons];
+    
+    /*!
+     * [output] Damage of tube-launched weapons
+     */
+    float weapon_damage_modifier[MW_Count] = {1.0};
 
     float hull_strength, hull_max;
     bool shields_active;
@@ -185,6 +190,9 @@ public:
     EDockingState docking_state;
     P<SpaceObject> docking_target; //Server only
     sf::Vector2f docking_offset; //Server only
+    
+    bool confirm_destruction_pending = false;
+    bool destruction_confirmed = false;
 
     SpaceShip(string multiplayerClassName, float multiplayer_significant_range=-1);
 
@@ -227,6 +235,23 @@ public:
      * \param info Information about damage type (usefull for damage reduction, etc)
      */
     virtual void takeHullDamage(float damage_amount, DamageInfo info);
+    
+    /*!
+     * Explode and destroy the ship, giving reputation points to the instigator in DamageInfo
+     * \param damage_amount Damage to be delt.
+     * \param info Information about damage type (usefull for damage reduction, etc)
+     */
+    virtual void destroyShip(DamageInfo& info);
+    
+    /*!
+     * Blow up the ship and take everyone close with you
+     * \param nr_of_explosions Number of secondary explosions to create surrounding the ship
+     * \param blast_range of the primary explosion
+     * \param min_damage of the primary explosion
+     * \param max_damage of the primary explosion
+     * \param min_range of the primary explosion
+     */
+    virtual void selfDestruct(int nr_of_explosions, float blast_range, float min_damage, float max_damage, float min_range);
 
     /*!
      * Jump in current direction
@@ -361,6 +386,12 @@ public:
         beam_weapons[index].cycleTime = cycleTime;
         beam_weapons[index].damage = damage;
     }
+    
+    virtual bool getConfirmDestructionPending() {return confirm_destruction_pending;}
+    virtual void confirmDestruction()           {destruction_confirmed = true;}
+    virtual void cancelConfirmDestruction()     {confirm_destruction_pending = false;
+                                                 setFrontShield(10);
+                                                 setRearShield(10); }
 };
 
 float frequencyVsFrequencyDamageFactor(int beam_frequency, int shield_frequency);

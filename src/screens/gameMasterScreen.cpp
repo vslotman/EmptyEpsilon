@@ -20,12 +20,13 @@ GameMasterScreen::GameMasterScreen()
     box_selection_overlay = new GuiOverlay(main_radar, "BOX_SELECTION", sf::Color(255, 255, 255, 32));
     box_selection_overlay->hide();
     
-    (new GuiToggleButton(this, "PAUSE_BUTTON", "Pause", [this](bool value) {
+    pause_button = new GuiToggleButton(this, "PAUSE_BUTTON", "Pause", [this](bool value) {
         if (value)
             engine->setGameSpeed(1.0f);
         else
             engine->setGameSpeed(0.0f);
-    }))->setPosition(20, 20, ATopLeft)->setSize(250, 50);
+    });
+    pause_button->setPosition(20, 20, ATopLeft)->setSize(250, 50);
     
     faction_selector = new GuiSelector(this, "FACTION_SELECTOR", [this](int index, string value) {
         for(P<SpaceObject> obj : targets.getTargets())
@@ -61,6 +62,16 @@ GameMasterScreen::GameMasterScreen()
         }
     });
     ship_retrofit_button->setPosition(20, -120, ABottomLeft)->setSize(250, 50)->hide();
+    
+    wormhole_activation_button = new GuiToggleButton(this, "ACTIVATE_WORMHOLE", "Activate", [this](bool value) {
+        for(P<WormHole> obj : targets.getTargets())
+        {
+            if (P<WormHole>(obj))
+                obj->setState(value);
+        }
+    });
+    wormhole_activation_button->setPosition(20, -120, ABottomLeft)->setSize(250, 50)->hide();
+    
     ship_tweak_button = new GuiButton(this, "TWEAK_SHIP", "Tweak", [this]() {
         for(P<SpaceObject> obj : targets.getTargets())
         {
@@ -80,6 +91,21 @@ GameMasterScreen::GameMasterScreen()
             hail_player_dialog->show();
     });
     player_comms_hail->setPosition(20, -220, ABottomLeft)->setSize(250, 50)->hide();
+    
+    // Game speed slider
+    (new GuiLabel(this, "GAME_SPEED", "Game Speed", 30))->setPosition(-20, -40, ABottomRight)->setSize(250, 30);
+    game_speed_slider = new GuiSlider(this, "GAME_SPEED", 0.0, 2.0, engine->getGameSpeed(), [this](float value) {
+        engine->setGameSpeed(value);
+    });
+    game_speed_slider->setPosition(-20, -20, ABottomRight)->setSize(250, 25);
+    
+    // Game speed slider
+    (new GuiLabel(this, "WEAPON_DAMAGE", "Weapon Damage", 30))->setPosition(-20, -40, ABottomRight)->setSize(250, 30);
+    game_speed_slider = new GuiSlider(this, "WEAPON_DAMAGE", 0.0, 2.0, 1.0, [this](float value) {
+        engine->setGameSpeed(value);
+    });
+    game_speed_slider->setPosition(-20, -20, ABottomRight)->setSize(250, 25);
+    
     
     info_layout = new GuiAutoLayout(this, "INFO_LAYOUT", GuiAutoLayout::LayoutVerticalTopToBottom);
     info_layout->setPosition(-20, 20, ATopRight)->setSize(300, GuiElement::GuiSizeMax);
@@ -108,7 +134,7 @@ GameMasterScreen::GameMasterScreen()
             if (P<CpuShip>(obj))
                 P<CpuShip>(obj)->orderDefendLocation(obj->getPosition());
     }))->setTextSize(20)->setSize(GuiElement::GuiSizeMax, 30);
-
+    
     hail_player_dialog = new GuiHailPlayerShip(this);
     hail_player_dialog->hide();
     hailing_player_dialog = new GuiHailingPlayerShip(this);
@@ -143,9 +169,13 @@ void GameMasterScreen::update(float delta)
             main_radar->longRange();
     }
     
+    game_speed_slider->setValue(engine->getGameSpeed());
+    pause_button->setValue((engine->getGameSpeed() == 0.0));
+    
     bool has_ship = false;
     bool has_cpu_ship = false;
     bool has_player_ship = false;
+    bool has_wormhole = false;
     for(P<SpaceObject> obj : targets.getTargets())
     {
         if (P<SpaceShip>(obj))
@@ -156,11 +186,14 @@ void GameMasterScreen::update(float delta)
             else if (P<PlayerSpaceship>(obj))
                 has_player_ship = true;
         }
+        else if (P<WormHole>(obj))
+            has_wormhole = true;
     }
     ship_retrofit_button->setVisible(has_ship);
     ship_tweak_button->setVisible(has_ship);
     order_layout->setVisible(has_cpu_ship);
     player_comms_hail->setVisible(has_player_ship);
+    wormhole_activation_button->setVisible(has_wormhole);
     
     std::unordered_map<string, string> selection_info;
     for(P<SpaceObject> obj : targets.getTargets())

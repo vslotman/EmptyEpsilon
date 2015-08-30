@@ -221,6 +221,11 @@ void SpaceShip::setShipTemplate(string template_name)
         beam_weapons[n].cycleTime = ship_template->beams[n].cycle_time;
         beam_weapons[n].damage = ship_template->beams[n].damage;
     }
+    
+    for (int n=0; n < MW_Count; n++)
+    {
+        weapon_damage_modifier[n] = ship_template->weapon_damage_modifier[n];
+    }
     weapon_tubes = ship_template->weapon_tubes;
     hull_strength = hull_max = ship_template->hull;
     front_shield = ship_template->front_shields;
@@ -860,22 +865,52 @@ void SpaceShip::takeHullDamage(float damage_amount, DamageInfo info)
         }
     }
 
-    hull_strength -= damage_amount;
-    if (hull_strength <= 0.0)
+    if ( (confirm_destruction_pending == false) || 
+         (destruction_confirmed == true) )
+    {
+        if ( ((hull_strength - damage_amount) <= 0.0) &&
+             (destruction_confirmed == false) )
+        {
+            confirm_destruction_pending = true;
+        }
+        else
+        {
+            hull_strength -= damage_amount;
+            if (hull_strength <= 0.0)
+                destroyShip(info);
+        }
+    }
+}
+
+void SpaceShip::destroyShip(DamageInfo& info)
+{
+    ExplosionEffect* e = new ExplosionEffect();
+    e->setSize(getRadius() * 1.5);
+    e->setPosition(getPosition());
+
+    if (info.instigator)
+    {
+        if (isEnemy(info.instigator))
+            info.instigator->addReputationPoints((hull_max + front_shield_max + rear_shield_max) * 0.1);
+        else
+            info.instigator->removeReputationPoints((hull_max + front_shield_max + rear_shield_max) * 0.1);
+    }
+    destroy();
+}
+
+void SpaceShip::selfDestruct(int nr_of_explosions, float blast_range, float min_damage, float max_damage, float min_range)
+{
+    for(int n=0; nr_of_explosions<5; n++)
     {
         ExplosionEffect* e = new ExplosionEffect();
-        e->setSize(getRadius() * 1.5);
-        e->setPosition(getPosition());
-
-        if (info.instigator)
-        {
-            if (isEnemy(info.instigator))
-                info.instigator->addReputationPoints((hull_max + front_shield_max + rear_shield_max) * 0.1);
-            else
-                info.instigator->removeReputationPoints((hull_max + front_shield_max + rear_shield_max) * 0.1);
-        }
-        destroy();
+        e->setSize(1000.0f);
+        e->setPosition(getPosition() + sf::rotateVector(sf::Vector2f(0, random(0, 500)), random(0, 360)));
     }
+
+    DamageInfo info(this, DT_Kinetic, getPosition());
+    SpaceObject::damageArea(getPosition(), blast_range, min_damage, max_damage, info, min_range);
+
+    destroy();
 }
 
 bool SpaceShip::hasSystem(ESystem system)

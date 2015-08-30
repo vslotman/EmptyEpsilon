@@ -81,7 +81,8 @@ void HardwareController::handleConfig(string section, std::unordered_map<string,
 {
     if (section == "[hardware]")
     {
-        HardwareOutputDevice* device = nullptr;
+        HardwareOutputDevice* device   = nullptr;
+        //HTTPRequestDevice http_device  = nullptr;
         
         if (settings["device"] == "")
             LOG(ERROR) << "No device definition in [hardware] section";
@@ -91,6 +92,15 @@ void HardwareController::handleConfig(string section, std::unordered_map<string,
             device = new EnttecDMXProDevice();
         else if (settings["device"] == "VirtualOutputDevice")
             device = new VirtualOutputDevice();
+        else if ( (settings["device"] == "HttpRequestDevice") && (http_device == nullptr))
+        {
+            LOG(INFO) << "Added HTTP-device";
+            //device = new HTTPRequestDevice();   
+            http_device = new HTTPRequestDevice();
+            device = (HardwareOutputDevice*) http_device;
+            LOG(INFO) << "New hardware device: " << settings["device"];
+            //devices.push_back(http_device);    
+        }
         if (device)
         {
             if (!device->configure(settings))
@@ -102,13 +112,25 @@ void HardwareController::handleConfig(string section, std::unordered_map<string,
                 devices.push_back(device);
             }
         }
-    }else if(section == "[channel]")
+        
+        
+        
+    }
+    else if(section == "[channel]")
     {
         if (settings["channel"] == "" || settings["name"] == "")
             LOG(ERROR) << "Incorrect properties in [channel] section";
-        else{
+        else
+        {
             channel_mapping[settings["name"]] = settings["channel"].toInt();
             LOG(INFO) << "Channel #" << settings["channel"] << ": " << settings["name"];
+            if (settings["host"] != "")
+            {
+                if (http_device != nullptr)
+                    http_device->configureChannel(settings["channel"].toInt(), settings);
+                else
+                    LOG(ERROR) << "No HttpRequestDevice configured, but we have channel-config for it";
+            }
         }
     }else if(section == "[channels]")
     {
@@ -267,14 +289,15 @@ void HardwareController::update(float delta)
             channels[event.channel_nr] = event.effect->onActive();
             if (event.start_time.getElapsedTime().asSeconds() > event.runtime)
                 event.triggered = false;
-        }else{
             event.effect->onInactive();
+        }else{
         }
     }
 
-    int idx = 0;
+    
     for(HardwareOutputDevice* device : devices)
     {
+        int idx = 0;
         for(int n=0; n<device->getChannelCount(); n++)
             device->setChannelData(n, channels[idx++]);
     }

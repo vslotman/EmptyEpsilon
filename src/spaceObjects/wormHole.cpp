@@ -112,7 +112,7 @@ void WormHole::update(float delta)
 
 void WormHole::collide(Collisionable* target)
 {
-    if (update_delta == 0.0)
+    if ( (update_delta == 0.0) || (!is_active) )
         return;
 
     sf::Vector2f diff = getPosition() - target->getPosition();

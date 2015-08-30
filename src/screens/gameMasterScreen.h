@@ -19,6 +19,7 @@ private:
     GuiRadarView* main_radar;
     GuiOverlay* box_selection_overlay;
     GuiSelector* faction_selector;
+    GuiToggleButton* pause_button;
     
     GuiGlobalMessageEntry* global_message_entry;
     GuiObjectCreationScreen* object_creation_screen;
@@ -32,6 +33,10 @@ private:
     GuiButton* player_comms_hail;
     GuiButton* ship_retrofit_button;
     GuiButton* ship_tweak_button;
+    GuiToggleButton* wormhole_activation_button;
+    
+    GuiLabel*  game_speed_label;
+    GuiSlider* game_speed_slider;
     
     enum EClickAndDragState
     {
