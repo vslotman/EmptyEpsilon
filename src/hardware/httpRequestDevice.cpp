@@ -8,6 +8,7 @@
 HTTPRequestDevice::HTTPRequestDevice()
 : update_thread(&HTTPRequestDevice::updateLoop, this)
 {
+    update_thread.launch();
 }
 
 HTTPRequestDevice::~HTTPRequestDevice()
@@ -69,9 +70,7 @@ bool HTTPRequestDevice::configureChannel(int channel_id, std::unordered_map<stri
 
 //Set a hardware channel output. For now, data only gets sent if value changes.
 void HTTPRequestDevice::setChannelData(int channel, float value)
-{  
-    //LOG(DEBUG) << channel << " : " << value;
-    
+{      
     if (active_requests.size() >= DEFAULT_MAX_REQUESTS)
     {
         LOG(ERROR) << "Reached maximum concurrent requests";
@@ -111,14 +110,19 @@ int HTTPRequestDevice::getChannelCount()
 void HTTPRequestDevice::updateLoop()
 {
     uint32_t i;
+    std::vector<HTTPRequestHandler*>::iterator it;
     
     while (run_thread)
     {
         // Loop over vector of requests, and close each ready request-object
-        for (i = 0; i < active_requests.size(); i++)
+        for (it = active_requests.begin(); it != active_requests.end(); it++)
         {
-            if (active_requests[i]->isReady()) //remove request-object if it has finished
-                delete active_requests[i];
+            if ((*it)->isReady()) //remove request-object if it has finished
+            {
+                delete * it;
+                it = active_requests.erase(it);
+            }
+                
         }
         sf::sleep(refresh_interval);
     }
