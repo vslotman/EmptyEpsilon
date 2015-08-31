@@ -25,9 +25,9 @@ void ToutatisAsteroid::draw3D()
 {
 #if FEATURE_3D_RENDERING
     glTranslatef(0, 0, z);
-    glRotatef(engine->getElapsedTime() * rotation_speed, 0, 0, 1);
+    //glRotatef(engine->getElapsedTime() * rotation_speed, 0, 0, 1);
     glScalef(getRadius(), getRadius(), getRadius());
-    simpleObjectShader->setParameter("baseMap", *textureManager.getTexture("asteroid2.png"));
+    simpleObjectShader->setParameter("baseMap", *textureManager.getTexture("asteroid.png"));
     sf::Shader::bind(simpleObjectShader);
     Mesh* m = Mesh::getMesh("toutatis_simpler2-5000vertices_UV.obj");
     m->render();
@@ -44,7 +44,7 @@ void ToutatisAsteroid::drawOnRadar(sf::RenderTarget& window, sf::Vector2f positi
     float size = getRadius() * scale / object_sprite.getTextureRect().width * 2;
     if (size < 0.2)
         size = 0.2;
-    object_sprite.setScale(size, size);
+    object_sprite.setScale(5, 5);
     window.draw(object_sprite);
 }
 
@@ -87,7 +87,7 @@ void VisualToutatisAsteroid::draw3D()
 {
 #if FEATURE_3D_RENDERING
     glTranslatef(0, 0, z);
-    glRotatef(engine->getElapsedTime() * rotation_speed, 0, 0, 1);
+    //glRotatef(engine->getElapsedTime() * rotation_speed, 0, 0, 1);
     glScalef(getRadius(), getRadius(), getRadius());
     simpleObjectShader->setParameter("baseMap", *textureManager.getTexture("asteroid2.png"));
     sf::Shader::bind(simpleObjectShader);
