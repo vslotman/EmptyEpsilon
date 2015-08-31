@@ -97,15 +97,7 @@ GameMasterScreen::GameMasterScreen()
     game_speed_slider = new GuiSlider(this, "GAME_SPEED", 0.0, 2.0, engine->getGameSpeed(), [this](float value) {
         engine->setGameSpeed(value);
     });
-    game_speed_slider->setPosition(-20, -20, ABottomRight)->setSize(250, 25);
-    
-    // Game speed slider
-    (new GuiLabel(this, "WEAPON_DAMAGE", "Weapon Damage", 30))->setPosition(-20, -40, ABottomRight)->setSize(250, 30);
-    game_speed_slider = new GuiSlider(this, "WEAPON_DAMAGE", 0.0, 2.0, 1.0, [this](float value) {
-        engine->setGameSpeed(value);
-    });
-    game_speed_slider->setPosition(-20, -20, ABottomRight)->setSize(250, 25);
-    
+    game_speed_slider->setPosition(-20, -20, ABottomRight)->setSize(250, 25);    
     
     info_layout = new GuiAutoLayout(this, "INFO_LAYOUT", GuiAutoLayout::LayoutVerticalTopToBottom);
     info_layout->setPosition(-20, 20, ATopRight)->setSize(300, GuiElement::GuiSizeMax);
