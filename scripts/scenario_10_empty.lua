@@ -8,6 +8,8 @@ function init()
 	--SpaceStation():setPosition(-1000, -1000):setTemplate('Huge Station'):setFaction("Human Navy"):setRotation(random(0, 360))
 	PlayerSpaceship():setFaction("Human Navy"):setShipTemplate("Player Cruiser"):setRotation(200)
 	Nebula():setPosition(-5000, 0)
+	Asteroid():setPosition(1000, 1000)
+	ToutatisAsteroid():setPosition(1000, 2000)
 end
 
 function update(delta)

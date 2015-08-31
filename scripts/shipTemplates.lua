@@ -16,6 +16,8 @@ template = ShipTemplate():setName("Huge Station"):setModel("space_station_1"):se
 template:setHull(800)
 template:setShields(1200, 0)
 
+template = ShipTemplate():setName("Humongous Asteroid"):setModel("sevcol_asteroid")
+
 --[[ Player ships --]]
 template = ShipTemplate():setName("Player Cruiser"):setModel("battleship_destroyer_5_upgraded"):setType("playership")
 --                  Arc, Dir, Range, CycleTime, Dmg
