@@ -17,7 +17,7 @@ private:
     {
     public:
         GuiAutoLayout* layout;
-        GuiToggleButton* button;
+        GuiToggleButtonWithoutMouse* button;
         GuiProgressbar* damage_bar;
         GuiLabel* damage_label;
         GuiProgressbar* heat_bar;

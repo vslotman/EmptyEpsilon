@@ -32,6 +32,7 @@ public:
     float getValue();
 };
 
+
 class GuiSliderWithoutMouse : public GuiSlider
 {
 public:
