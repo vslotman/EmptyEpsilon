@@ -94,6 +94,7 @@ HelmsScreen::HelmsScreen(GuiContainer* owner)
     (new GuiImpulseControls(engine_layout, "IMPULSE"))->setSize(100, GuiElement::GuiSizeMax);
     warp_controls = (new GuiWarpControls(engine_layout, "WARP"))->setSize(100, GuiElement::GuiSizeMax);
     jump_controls = (new GuiJumpControls(engine_layout, "JUMP"))->setSize(100, GuiElement::GuiSizeMax);
+    jump_controls->disable();
     
     (new GuiDockingButton(this, "DOCKING"))->setPosition(20, -20, ABottomLeft)->setSize(280, 50);
 }
@@ -108,7 +109,7 @@ void HelmsScreen::onDraw(sf::RenderTarget& window)
         velocity_display->setValue(string(velocity, 1) + "km/min");
         
         warp_controls->setVisible(my_spaceship->has_warp_drive);
-        jump_controls->setVisible(my_spaceship->has_jump_drive);
+        jump_controls->setVisible(false);
     }
     GuiOverlay::onDraw(window);
 }
