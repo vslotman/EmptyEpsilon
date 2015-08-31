@@ -16,7 +16,7 @@ EngineeringScreen::EngineeringScreen(GuiContainer* owner)
     shields_display = new GuiKeyValueDisplay(this, "SHIELDS_DISPLAY", 0.45, "Shields", "");
     shields_display->setTextSize(20)->setPosition(20, 180, ATopLeft)->setSize(240, 40);
     
-    (new GuiSelfDestructButton(this, "SELF_DESTRUCT"))->setPosition(20, 220, ATopLeft)->setSize(240, 100);
+    //(new GuiSelfDestructButton(this, "SELF_DESTRUCT"))->setPosition(20, 220, ATopLeft)->setSize(240, 100);
     
     GuiAutoLayout* system_row_layouts = new GuiAutoLayout(this, "SYSTEM_ROWS", GuiAutoLayout::LayoutVerticalBottomToTop);
     system_row_layouts->setPosition(20, -20, ABottomLeft);
@@ -28,7 +28,7 @@ EngineeringScreen::EngineeringScreen(GuiContainer* owner)
         info.layout = new GuiAutoLayout(system_row_layouts, id, GuiAutoLayout::LayoutHorizontalLeftToRight);
         info.layout->setSize(GuiElement::GuiSizeMax, 50);
         
-        info.button = new GuiToggleButton(info.layout, id + "_SELECT", getSystemName(ESystem(n)), [this, n](bool value){
+        info.button = new GuiToggleButtonWithoutMouse(info.layout, id + "_SELECT", getSystemName(ESystem(n)), [this, n](bool value){
             for(int idx=0; idx<SYS_COUNT; idx++)
             {
                 system_rows[idx].button->setValue(idx == n);
