@@ -113,11 +113,12 @@ ScienceScreen::ScienceScreen(GuiContainer* owner)
         category_list->addEntry(sd->getName(), sd->getName());
     }
 
-    
+    /*
     (new GuiListbox(this, "VIEW_SELECTION", [this](int index, string value) {
         radar_view->setVisible(index == 0);
         database_view->setVisible(index == 1);
     }))->setOptions({"Radar", "Database"})->setSelectionIndex(0)->setPosition(20, -20, ABottomLeft)->setSize(200, 100);
+    */
     
     new GuiScanningDialog(this, "SCANNING_DIALOG");
 }
