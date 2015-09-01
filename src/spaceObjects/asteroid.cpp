@@ -79,9 +79,11 @@ VisualAsteroid::VisualAsteroid()
 {
     setRotation(random(0, 360));
     rotation_speed = random(0.1, 0.8);
-    z = random(300, 800);
-    if (random(0, 100) < 50)
-        z = -z;
+    z = random(-5000, 5000);
+    if (z<0)
+        z -= 50;
+    else
+        z += 50;
 
     registerMemberReplication(&z);
 }
