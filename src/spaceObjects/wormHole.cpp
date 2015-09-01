@@ -42,6 +42,7 @@ WormHole::WormHole()
 #if FEATURE_3D_RENDERING
 void WormHole::draw3DTransparent()
 {
+    return;
     glRotatef(getRotation(), 0, 0, -1);
     glTranslatef(-getPosition().x, -getPosition().y, 0);
     for(int n=0; n<cloud_count; n++)
@@ -71,11 +72,22 @@ void WormHole::draw3DTransparent()
         glEnd();
     }
 }
-#endif//FEATURE_3D_RENDERING
 
+void WormHole::draw3D()
+{
+    //glTranslatef(0, 0, z);
+    //glRotatef(engine->getElapsedTime() * rotation_speed, 0, 0, 1);
+    glScalef(2, 2, 2);
+    //simpleObjectShader->setParameter("baseMap", *textureManager.getTexture("asteroid.png"));
+    sf::Shader::bind(simpleObjectShader);
+    Mesh* m = Mesh::getMesh("gate2.obj");
+    m->render();
+}
+#endif FEATURE_3D_RENDERING
 
 void WormHole::drawOnRadar(sf::RenderTarget& window, sf::Vector2f position, float scale, bool long_range)
 {
+#if 0    
     sf::Sprite object_sprite;
     textureManager.setTexture(object_sprite, "wormHole" + string(radar_visual) + ".png");
     object_sprite.setRotation(getRotation());
@@ -84,11 +96,20 @@ void WormHole::drawOnRadar(sf::RenderTarget& window, sf::Vector2f position, floa
     object_sprite.setScale(size, size);
     object_sprite.setColor(sf::Color(255, 255, 255));
     window.draw(object_sprite, sf::RenderStates(sf::BlendAdd));
+#endif
 }
 
 /* Draw a line towards the target position */
 void WormHole::drawOnGMRadar(sf::RenderTarget& window, sf::Vector2f position, float scale, bool long_range)
 {    
+    sf::Sprite object_sprite;
+    textureManager.setTexture(object_sprite, "wormHole" + string(radar_visual) + ".png");
+    object_sprite.setRotation(getRotation());
+    object_sprite.setPosition(position);
+    float size = getRadius() * scale / object_sprite.getTextureRect().width * 3.0;
+    object_sprite.setScale(size, size);
+    object_sprite.setColor(sf::Color(255, 255, 255));
+    window.draw(object_sprite, sf::RenderStates(sf::BlendAdd));
     sf::VertexArray a(sf::Lines, 2);
     a[0].position = position;
     a[1].position = position + (target_position - getPosition()) * scale;
@@ -130,6 +151,7 @@ void WormHole::collide(Collisionable* target)
                                                random(-TARGET_SPREAD, TARGET_SPREAD))));
             if (obj)
                 obj->wormhole_alpha = 0.0;
+        return;
     }
     
     // warp postprocessor-alpha is calculated using alpha = (1 - (delay/10))

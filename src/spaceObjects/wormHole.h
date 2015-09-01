@@ -23,6 +23,7 @@ public:
 
 #if FEATURE_3D_RENDERING
     virtual void draw3DTransparent();
+    virtual void draw3D();
 #endif//FEATURE_3D_RENDERING
     virtual void drawOnRadar(sf::RenderTarget& window, sf::Vector2f position, float scale, bool long_range);
     virtual void drawOnGMRadar(sf::RenderTarget& window, sf::Vector2f position, float scale, bool long_range);
