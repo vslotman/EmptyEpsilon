@@ -715,6 +715,8 @@
 		<Unit filename="src/spaceObjects/spaceship.h" />
 		<Unit filename="src/spaceObjects/supplyDrop.cpp" />
 		<Unit filename="src/spaceObjects/supplyDrop.h" />
+		<Unit filename="src/spaceObjects/toutatis_asteroid.cpp" />
+		<Unit filename="src/spaceObjects/toutatis_asteroid.h" />
 		<Unit filename="src/spaceObjects/warpJammer.cpp" />
 		<Unit filename="src/spaceObjects/warpJammer.h" />
 		<Unit filename="src/spaceObjects/wormHole.cpp" />
