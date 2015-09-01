@@ -1,7 +1,7 @@
 #include "httpRequestDevice.h"
 #include "logging.h"
 
-#define DEFAULT_MAX_REQUESTS     100
+#define DEFAULT_MAX_REQUESTS     200
 #define DEFAULT_REQUEST_INTERVAL 0.5
 #define DEFAULT_TIMEOUT          5
 
