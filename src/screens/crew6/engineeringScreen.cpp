@@ -28,7 +28,7 @@ EngineeringScreen::EngineeringScreen(GuiContainer* owner)
         info.layout = new GuiAutoLayout(system_row_layouts, id, GuiAutoLayout::LayoutHorizontalLeftToRight);
         info.layout->setSize(GuiElement::GuiSizeMax, 50);
         
-        info.button = new GuiToggleButtonWithoutMouse(info.layout, id + "_SELECT", getSystemName(ESystem(n)), [this, n](bool value){
+        info.button = new GuiToggleButton(info.layout, id + "_SELECT", getSystemName(ESystem(n)), [this, n](bool value){
             for(int idx=0; idx<SYS_COUNT; idx++)
             {
                 system_rows[idx].button->setValue(idx == n);
