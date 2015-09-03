@@ -78,7 +78,7 @@ void WormHole::draw3D()
     //glTranslatef(0, 0, z);
     //glRotatef(engine->getElapsedTime() * rotation_speed, 0, 0, 1);
     glScalef(2, 2, 2);
-    //simpleObjectShader->setParameter("baseMap", *textureManager.getTexture("asteroid.png"));
+    simpleObjectShader->setParameter("baseMap", *textureManager.getTexture("black.png"));
     sf::Shader::bind(simpleObjectShader);
     Mesh* m = Mesh::getMesh("gate2.obj");
     m->render();

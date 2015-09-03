@@ -61,6 +61,8 @@ REGISTER_SCRIPT_SUBCLASS_NO_CREATE(SpaceShip, SpaceObject)
     REGISTER_SCRIPT_CLASS_FUNCTION(SpaceShip, getBeamWeaponDamage);
     REGISTER_SCRIPT_CLASS_FUNCTION(SpaceShip, setBeamWeapon);
     REGISTER_SCRIPT_CLASS_FUNCTION(SpaceShip, setWeaponTubeCount);
+    REGISTER_SCRIPT_CLASS_FUNCTION(SpaceShip, getShieldFrequency);
+    REGISTER_SCRIPT_CLASS_FUNCTION(SpaceShip, setShieldFrequency);
 }
 
 /* Define script conversion function for the EMainScreenSetting enum. */
