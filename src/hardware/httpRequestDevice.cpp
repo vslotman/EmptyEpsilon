@@ -83,7 +83,7 @@ void HTTPRequestDevice::setChannelData(int channel, float value)
     }
     else if ( (channel_list.find(channel) != channel_list.end()) && 
               (channel_list[channel]->value != value))
-              //(value == 1.0f))
+              //(value != 0.0f))
     {
         LOG(DEBUG) << "Spawning request for channel #" << channel << " with val: " << value << " prev val: " << channel_list[channel]->value;
         channel_list[channel]->value = value;
@@ -116,7 +116,7 @@ void HTTPRequestDevice::updateLoop()
     
     while (run_thread)
     {
-        if ( (!enabled) && (start_time.getElapsedTime().asSeconds() > 5) )
+        if ( (!enabled) && (start_time.getElapsedTime().asSeconds() > 15) )
             enabled = true;
             
         // Loop over vector of requests, and close each ready request-object

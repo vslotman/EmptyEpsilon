@@ -55,7 +55,7 @@ SinglePilotScreen::SinglePilotScreen(GuiContainer* owner)
     heading_display->setTextSize(20)->setPosition(-20, -100, ABottomRight)->setSize(240, 40);
     velocity_display = new GuiKeyValueDisplay(left_panel, "VELOCITY_DISPLAY", 0.45, "Speed", "");
     velocity_display->setTextSize(20)->setPosition(-20, -60, ABottomRight)->setSize(240, 40);
-    shields_display = new GuiKeyValueDisplay(left_panel, "SHIELDS_DISPLAY", 0.45, "Shields", "");
+    shields_display = new GuiKeyValueDisplay(left_panel, "SHIELDS_DISPLAY", 0.45, "Armor", "");
     shields_display->setTextSize(20)->setPosition(-20, -20, ABottomRight)->setSize(240, 40);
     
     missile_aim = new GuiRotationDial(left_panel, "MISSILE_AIM", -90, 360 - 90, 0, [this](float value){

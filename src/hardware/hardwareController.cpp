@@ -351,7 +351,7 @@ bool HardwareController::getVariableValue(string variable_name, float& value)
     SHIP_VARIABLE("Jumping", ship->jump_delay > 0.0f ? 1.0f : 0.0f);
     SHIP_VARIABLE("Jumped", ship->jump_indicator > 0.0f ? 1.0f : 0.0f);
     SHIP_VARIABLE("FrontShieldsMax", ship->front_shield_max);
-    //SHIP_VARIABLE("RedAlertActive", ship->red_alert_active ? 1.0f : 0.0f);
+    SHIP_VARIABLE("RedAlertActive", ship->red_alert_active ? 1.0f : 0.0f);
     for(int n=0; n<max_weapon_tubes; n++)
     {
         SHIP_VARIABLE("TubeLoaded" + string(n), ship->weaponTube[n].state == WTS_Loaded ? 1.0f : 0.0f);

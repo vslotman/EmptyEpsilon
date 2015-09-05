@@ -13,10 +13,16 @@ EngineeringScreen::EngineeringScreen(GuiContainer* owner)
     energy_display->setTextSize(20)->setPosition(20, 100, ATopLeft)->setSize(240, 40);
     hull_display = new GuiKeyValueDisplay(this, "HULL_DISPLAY", 0.45, "Hull", "");
     hull_display->setTextSize(20)->setPosition(20, 140, ATopLeft)->setSize(240, 40);
-    shields_display = new GuiKeyValueDisplay(this, "SHIELDS_DISPLAY", 0.45, "Shields", "");
+    shields_display = new GuiKeyValueDisplay(this, "SHIELDS_DISPLAY", 0.45, "Armor", "");
     shields_display->setTextSize(20)->setPosition(20, 180, ATopLeft)->setSize(240, 40);
     
     //(new GuiSelfDestructButton(this, "SELF_DESTRUCT"))->setPosition(20, 220, ATopLeft)->setSize(240, 100);
+    (new GuiToggleButton(this, "RED_ALERT", "Red Alert", [this](bool value) {
+        if (value)
+            my_spaceship->red_alert_active = true;
+        else
+            my_spaceship->red_alert_active = false;
+    }))->setPosition(20, 220, ATopLeft)->setSize(240, 100);
     
     GuiAutoLayout* system_row_layouts = new GuiAutoLayout(this, "SYSTEM_ROWS", GuiAutoLayout::LayoutVerticalBottomToTop);
     system_row_layouts->setPosition(20, -20, ABottomLeft);

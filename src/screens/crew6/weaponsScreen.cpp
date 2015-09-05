@@ -41,7 +41,7 @@ WeaponsScreen::WeaponsScreen(GuiContainer* owner)
 
     energy_display = new GuiKeyValueDisplay(this, "ENERGY_DISPLAY", 0.45, "Energy", "");
     energy_display->setTextSize(20)->setPosition(20, 100, ATopLeft)->setSize(240, 40);
-    shields_display = new GuiKeyValueDisplay(this, "SHIELDS_DISPLAY", 0.45, "Shields", "");
+    shields_display = new GuiKeyValueDisplay(this, "SHIELDS_DISPLAY", 0.45, "Armor", "");
     shields_display->setTextSize(20)->setPosition(20, 140, ATopLeft)->setSize(240, 40);
     
     tube_controls = new GuiMissileTubeControls(this, "MISSILE_TUBES");

@@ -47,7 +47,7 @@ ScienceScreen::ScienceScreen(GuiContainer* owner)
     info_faction->setSize(GuiElement::GuiSizeMax, 30);
     info_type = new GuiKeyValueDisplay(sidebar, "SCIENCE_TYPE", 0.4, "Type", "");
     info_type->setSize(GuiElement::GuiSizeMax, 30);
-    info_shields = new GuiKeyValueDisplay(sidebar, "SCIENCE_SHIELDS", 0.4, "Shields", "");
+    info_shields = new GuiKeyValueDisplay(sidebar, "SCIENCE_SHIELDS", 0.4, "Armor", "");
     info_shields->setSize(GuiElement::GuiSizeMax, 30);
 
     info_shield_frequency = new GuiFrequencyCurve(sidebar, "SCIENCE_SHIELD_FREQUENCY", false, true);

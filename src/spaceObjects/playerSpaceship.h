@@ -89,6 +89,8 @@ public:
     ECrewPosition self_destruct_code_entry_position[max_self_destruct_codes];
     ECrewPosition self_destruct_code_show_position[max_self_destruct_codes];
     float self_destruct_countdown;
+    bool red_alert_active = false;
+    float self_destruct_countdown;
 
     PlayerSpaceship();
 

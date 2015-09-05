@@ -43,7 +43,7 @@ TacticalScreen::TacticalScreen(GuiContainer* owner)
     heading_display->setTextSize(20)->setPosition(20, 140, ATopLeft)->setSize(240, 40);
     velocity_display = new GuiKeyValueDisplay(this, "VELOCITY_DISPLAY", 0.45, "Speed", "");
     velocity_display->setTextSize(20)->setPosition(20, 180, ATopLeft)->setSize(240, 40);
-    shields_display = new GuiKeyValueDisplay(this, "SHIELDS_DISPLAY", 0.45, "Shields", "");
+    shields_display = new GuiKeyValueDisplay(this, "SHIELDS_DISPLAY", 0.45, "Armor", "");
     shields_display->setTextSize(20)->setPosition(20, 220, ATopLeft)->setSize(240, 40);
     
     missile_aim = new GuiRotationDial(this, "MISSILE_AIM", -90, 360 - 90, 0, [this](float value){
