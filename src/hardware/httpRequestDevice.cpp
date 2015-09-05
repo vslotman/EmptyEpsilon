@@ -8,6 +8,7 @@
 HTTPRequestDevice::HTTPRequestDevice()
 : update_thread(&HTTPRequestDevice::updateLoop, this)
 {
+    start_time = sf::Clock();
     update_thread.launch();
 }
 
@@ -82,9 +83,10 @@ void HTTPRequestDevice::setChannelData(int channel, float value)
     }
     else if ( (channel_list.find(channel) != channel_list.end()) && 
               (channel_list[channel]->value != value))
+              //(value == 1.0f))
     {
+        LOG(DEBUG) << "Spawning request for channel #" << channel << " with val: " << value << " prev val: " << channel_list[channel]->value;
         channel_list[channel]->value = value;
-        LOG(DEBUG) << "Spawning request for channel #" << channel << " with value: " << value;;
         
         HTTPRequestHandler *request = new HTTPRequestHandler(channel_list[channel]);
         active_requests.push_back(request);
@@ -108,21 +110,23 @@ int HTTPRequestDevice::getChannelCount()
 
 // Loop over list of active channels, removing those that have finished
 void HTTPRequestDevice::updateLoop()
-{
+{    
     uint32_t i;
     std::vector<HTTPRequestHandler*>::iterator it;
     
     while (run_thread)
     {
+        if ( (!enabled) && (start_time.getElapsedTime().asSeconds() > 5) )
+            enabled = true;
+            
         // Loop over vector of requests, and close each ready request-object
-        for (it = active_requests.begin(); it != active_requests.end(); it++)
+        for (it = active_requests.begin(); it < active_requests.end(); it++)
         {
             if ((*it)->isReady()) //remove request-object if it has finished
             {
-                delete * it;
+                //delete * it;
                 it = active_requests.erase(it);
             }
-                
         }
         sf::sleep(refresh_interval);
     }

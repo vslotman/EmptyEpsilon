@@ -12,6 +12,8 @@
 class HTTPRequestDevice : public HardwareOutputDevice
 {
 private:
+    sf::Clock start_time;
+    bool enabled = false;
     float timeout;
     sf::Time refresh_interval;
     std::unordered_map<int, HTTPChannel*> channel_list;
