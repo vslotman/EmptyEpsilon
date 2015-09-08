@@ -136,6 +136,8 @@ PlayerSpaceship::PlayerSpaceship()
     registerMemberReplication(&waypoints);
     registerMemberReplication(&scan_probe_stock);
     registerMemberReplication(&activate_self_destruct);
+    registerMemberReplication(&red_alert_active);
+    
     for(int n=0; n<max_self_destruct_codes; n++)
     {
         self_destruct_code[n] = 0;

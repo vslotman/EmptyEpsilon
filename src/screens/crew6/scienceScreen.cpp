@@ -31,8 +31,13 @@ ScienceScreen::ScienceScreen(GuiContainer* owner)
     );
     
     GuiAutoLayout* sidebar = new GuiAutoLayout(radar_view, "SIDE_BAR", GuiAutoLayout::LayoutVerticalTopToBottom);
-    sidebar->setPosition(-20, 150, ATopRight)->setSize(250, GuiElement::GuiSizeMax);
+    sidebar->setPosition(-20, 90, ATopRight)->setSize(250, GuiElement::GuiSizeMax);
     (new GuiScanTargetButton(sidebar, "SCAN_BUTTON", &targets))->setSize(GuiElement::GuiSizeMax, 50);
+    
+    (new GuiToggleButton(sidebar, "RED_ALERT", "Red Alert", [this](bool value) { 
+        if (my_spaceship)
+            my_spaceship->red_alert_active = value; 
+    }))->setSize(GuiElement::GuiSizeMax, 60);
     
     info_callsign = new GuiKeyValueDisplay(sidebar, "SCIENCE_CALLSIGN", 0.4, "Callsign", "");
     info_callsign->setSize(GuiElement::GuiSizeMax, 30);

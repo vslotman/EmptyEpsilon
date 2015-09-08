@@ -76,6 +76,7 @@ public:
     CommsScriptInterface comms_script_interface;  //Server only
     std::vector<sf::Vector2f> waypoints;
     int scan_probe_stock;
+    bool red_alert_active = false;
 
     EMainScreenSetting main_screen_setting;
 
