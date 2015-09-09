@@ -115,7 +115,7 @@ void HTTPRequestDevice::updateLoop()
     while (run_thread)
     {
         // Loop over vector of requests, and close each ready request-object
-        for (it = active_requests.begin(); it != active_requests.end(); it++)
+        for (it = active_requests.begin(); it < active_requests.end(); it++)
         {
             if ((*it)->isReady()) //remove request-object if it has finished
             {
