@@ -60,6 +60,9 @@ bool HTTPRequestDevice::configureChannel(int channel_id, std::unordered_map<stri
         channel->port = settings["port"].toInt();
     if (settings.find("timeout") != settings.end())
         channel->timeout = settings["timeout"].toInt();
+    if (settings.find("timeout") != settings.end())
+        channel->append_value = settings["append_value"].toInt() ? true : false;
+        
 
     channel_list[channel_id] = channel;
 

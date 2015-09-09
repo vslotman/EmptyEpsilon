@@ -6,7 +6,10 @@ HTTPRequestHandler::HTTPRequestHandler(HTTPChannel * target)
 : request_thread(&HTTPRequestHandler::performRequest, this)
 {
     target_channel = target;
+    if (target->append_value)
+        target->uri += string(int(target->value));
     request_thread.launch();
+    
 }
 
 HTTPRequestHandler::~HTTPRequestHandler()
@@ -28,6 +31,7 @@ void HTTPRequestHandler::performRequest()
     http.setHost(target_channel->host, target_channel->port);
 
     sf::Http::Request request(target_channel->uri);
+    LOG(DEBUG) << target_channel->uri;
     // Send the request
     sf::Http::Response response = http.sendRequest(request, request_timeout);
     ;
