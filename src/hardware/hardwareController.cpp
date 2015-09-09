@@ -313,6 +313,10 @@ HardwareMappingEffect* HardwareController::createEffect(std::unordered_map<strin
         effect = new HardwareMappingEffectGlow();
     else if (effect_name == "blink")
         effect = new HardwareMappingEffectBlink();
+    else if (effect_name == "game_variable")
+        effect = new HardwareMappingEffectGameVariable();
+    else
+        return nullptr;
     
     if (effect->configure(settings))
         return effect;

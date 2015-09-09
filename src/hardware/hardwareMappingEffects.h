@@ -50,4 +50,18 @@ public:
     virtual void onInactive();
 };
 
+class HardwareMappingEffectGameVariable : public HardwareMappingEffect
+{
+private:
+    string variable;
+    float value;
+    float interval;
+    sf::Clock clock;
+public:
+    virtual bool configure(std::unordered_map<string, string> settings);
+    virtual float onActive();
+    virtual void onInactive() {};
+    bool getVariableValue(string variable_name, float& value);
+};
+
 #endif//HARDWARE_MAPPING_EFFECTS_H
