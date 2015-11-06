@@ -34,6 +34,7 @@ private:
     GuiButton* ship_retrofit_button;
     GuiButton* ship_tweak_button;
     GuiToggleButton* wormhole_activation_button;
+    GuiButton* explode_object_button;
     
     GuiLabel*  game_speed_label;
     GuiSlider* game_speed_slider;

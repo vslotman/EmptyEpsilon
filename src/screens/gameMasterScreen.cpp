@@ -72,6 +72,19 @@ GameMasterScreen::GameMasterScreen()
     });
     wormhole_activation_button->setPosition(20, -120, ABottomLeft)->setSize(250, 50)->hide();
     
+    explode_object_button = new GuiToggleButton(this, "EXPLODE_SPACESHIP", "Explode", [this](bool value) {
+        for(P<SpaceShip> obj : targets.getTargets())
+        {
+            if (P<SpaceShip>(obj))
+            {
+                DamageInfo info(NULL, DT_Kinetic, obj->getPosition()); 
+                obj->destroyShip(info);
+                break;
+            }
+        }
+    });
+    explode_object_button->setPosition(20, -220, ABottomLeft)->setSize(250, 50)->hide();
+    
     ship_tweak_button = new GuiButton(this, "TWEAK_SHIP", "Tweak", [this]() {
         for(P<SpaceObject> obj : targets.getTargets())
         {
@@ -186,6 +199,7 @@ void GameMasterScreen::update(float delta)
     order_layout->setVisible(has_cpu_ship);
     player_comms_hail->setVisible(has_player_ship);
     wormhole_activation_button->setVisible(has_wormhole);
+    explode_object_button->setVisible(has_ship);
     
     std::unordered_map<string, string> selection_info;
     for(P<SpaceObject> obj : targets.getTargets())
