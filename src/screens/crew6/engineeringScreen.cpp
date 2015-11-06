@@ -71,12 +71,12 @@ EngineeringScreen::EngineeringScreen(GuiContainer* owner)
     (new GuiLabel(box, "POWER_LABEL", "Power", 30))->setVertical()->setAlignment(ACenterLeft)->setPosition(20, 20, ATopLeft)->setSize(30, 360);
     (new GuiLabel(box, "COOLANT_LABEL", "Coolant", 30))->setVertical()->setAlignment(ACenterLeft)->setPosition(110, 20, ATopLeft)->setSize(30, 360);
     
-    power_slider = new GuiSliderWithoutMouse(box, "POWER_SLIDER", 3.0, 0.0, 1.0, [this](float value) {
+    power_slider = new GuiSlider(box, "POWER_SLIDER", 3.0, 0.0, 1.0, [this](float value) {
         if (my_spaceship)
             my_spaceship->commandSetSystemPower(selected_system, value);
     });
     power_slider->setSnapValue(1.0, 0.1)->setPosition(50, 20, ATopLeft)->setSize(60, 360);
-    coolant_slider = new GuiSliderWithoutMouse(box, "COOLANT_SLIDER", 10.0, 0.0, 0.0, [this](float value) {
+    coolant_slider = new GuiSlider(box, "COOLANT_SLIDER", 10.0, 0.0, 0.0, [this](float value) {
         if (my_spaceship)
             my_spaceship->commandSetSystemCoolant(selected_system, value);
     });
