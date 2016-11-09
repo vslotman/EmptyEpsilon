@@ -115,7 +115,7 @@ ScienceScreen::ScienceScreen(GuiContainer* owner)
         }
     });
     info_type_button->setTextSize(20)->setPosition(0, 1, ATopRight)->setSize(50, 28);
-    info_shields = new GuiKeyValueDisplay(info_sidebar, "SCIENCE_SHIELDS", 0.4, "Shields", "");
+    info_shields = new GuiKeyValueDisplay(info_sidebar, "SCIENCE_SHIELDS", 0.4, "Armor", "");
     info_shields->setSize(GuiElement::GuiSizeMax, 30);
     info_hull = new GuiKeyValueDisplay(info_sidebar, "SCIENCE_HULL", 0.4, "Hull", "");
     info_hull->setSize(GuiElement::GuiSizeMax, 30);
