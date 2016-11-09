@@ -257,6 +257,10 @@ void ShipTemplateBasedObject::takeDamage(float damage_amount, DamageInfo info)
 
 void ShipTemplateBasedObject::takeHullDamage(float damage_amount, DamageInfo& info)
 {
+	if (hull_strength - damage_amount <= 0.0 && !can_be_destroyed) {
+		return;
+	}
+
     hull_strength -= damage_amount;
     if (hull_strength <= 0.0)
     {
