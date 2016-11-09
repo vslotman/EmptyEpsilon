@@ -167,8 +167,8 @@ ScienceScreen::ScienceScreen(GuiContainer* owner)
     info_description->setTextSize(28)->setMargins(20, 20, 0, 0)->setSize(GuiElement::GuiSizeMax, 400)->hide();
 
     // Prep and hide the database view.
-    database_view = new DatabaseViewComponent(this);
-    database_view->hide()->setSize(GuiElement::GuiSizeMax, GuiElement::GuiSizeMax);
+//    database_view = new DatabaseViewComponent(this);
+//    database_view->hide()->setSize(GuiElement::GuiSizeMax, GuiElement::GuiSizeMax);
 
     // Probe view button
     probe_view_button = new GuiToggleButton(radar_view, "PROBE_VIEW", "Probe View", [this](bool value){
@@ -204,12 +204,12 @@ ScienceScreen::ScienceScreen(GuiContainer* owner)
     zoom_label->setSize(GuiElement::GuiSizeMax, GuiElement::GuiSizeMax);
 
     // Radar/database view toggle.
-    view_mode_selection = new GuiListbox(this, "VIEW_SELECTION", [this](int index, string value) {
-        radar_view->setVisible(index == 0);
-        background_gradient->setVisible(index == 0);
-        database_view->setVisible(index == 1);
-    });
-    view_mode_selection->setOptions({"Radar", "Database"})->setSelectionIndex(0)->setPosition(20, -20, ABottomLeft)->setSize(200, 100);
+//    view_mode_selection = new GuiListbox(this, "VIEW_SELECTION", [this](int index, string value) {
+//        radar_view->setVisible(index == 0);
+//        background_gradient->setVisible(index == 0);
+//        database_view->setVisible(index == 1);
+//    });
+//    view_mode_selection->setOptions({"Radar", "Database"})->setSelectionIndex(0)->setPosition(20, -20, ABottomLeft)->setSize(200, 100);
 
     // Scanning dialog.
     new GuiScanningDialog(this, "SCANNING_DIALOG");
