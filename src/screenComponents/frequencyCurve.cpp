@@ -58,7 +58,7 @@ void GuiFrequencyCurve::onDraw(sf::RenderTarget& window)
             if (more_damage_is_positive)
                 text = "Damage with your beams";
             else
-                text = "Damage on your shields";
+                text = "Damage on your armor";
         }
         drawText(window, sf::FloatRect(rect.left, rect.top, rect.width, 40), text, ACenter, 20);
     }else{

@@ -11,7 +11,7 @@
 GuiShieldsEnableButton::GuiShieldsEnableButton(GuiContainer* owner, string id)
 : GuiElement(owner, id)
 {
-    button = new GuiToggleButton(this, id + "_BUTTON", "Shields: ON", [](bool value) {
+    button = new GuiToggleButton(this, id + "_BUTTON", "Armor: ON", [](bool value) {
         if (my_spaceship)
             my_spaceship->commandSetShields(!my_spaceship->shields_active);
     });
@@ -39,9 +39,9 @@ void GuiShieldsEnableButton::onDraw(sf::RenderTarget& window)
             button->setValue(my_spaceship->shields_active);
             bar->hide();
             if (gameGlobalInfo->use_beam_shield_frequencies)
-                button->setText(frequencyToString(my_spaceship->shield_frequency) + (my_spaceship->shields_active ? " Shields: ON" : " Shields: OFF"));
+                button->setText(frequencyToString(my_spaceship->shield_frequency) + (my_spaceship->shields_active ? " Armor: ON" : " Armor: OFF"));
             else
-                button->setText(my_spaceship->shields_active ? " Shields: ON" : " Shields: OFF");
+                button->setText(my_spaceship->shields_active ? " Armor: ON" : " Armor: OFF");
         }
     }
 }
