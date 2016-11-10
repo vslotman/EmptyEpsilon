@@ -167,6 +167,11 @@ public:
     P<SpaceObject> docking_target; //Server only
     sf::Vector2f docking_offset; //Server only
 
+    /**
+     * SevCol changes
+     */
+    bool can_be_destroyed = true;
+
     SpaceShip(string multiplayerClassName, float multiplayer_significant_range=-1);
 
 #if FEATURE_3D_RENDERING

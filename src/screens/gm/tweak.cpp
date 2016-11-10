@@ -1,6 +1,7 @@
 #include "tweak.h"
 #include "playerInfo.h"
 #include "spaceObjects/spaceship.h"
+#include "sevcol.h"
 
 #include "gui/gui2_listbox.h"
 #include "gui/gui2_autolayout.h"
@@ -41,6 +42,8 @@ GuiObjectTweak::GuiObjectTweak(GuiContainer* owner, ETweakType tweak_type)
         list->addEntry("Beams", "");
         pages.push_back(new GuiShipTweakSystems(this));
         list->addEntry("Systems", "");
+        pages.push_back(new GuiShipTweakSevcol(this));
+		list->addEntry("Sevcol", "");
     }
 
     if (tweak_type == TW_Player)
