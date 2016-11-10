@@ -189,4 +189,5 @@ public:
 
     virtual void onDraw(sf::RenderTarget& window) override;
 };
+
 #endif//TWEAK_H

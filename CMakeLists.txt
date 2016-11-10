@@ -91,6 +91,7 @@ set(SOURCES
 	src/screens/extra/shipLogScreen.cpp
 	src/screens/gm/gameMasterScreen.cpp
 	src/screens/gm/chatDialog.cpp
+	src/screens/gm/sevcol.cpp
 	src/screens/gm/tweak.cpp
 	src/screenComponents/aimLock.cpp
 	src/screenComponents/alertOverlay.cpp
