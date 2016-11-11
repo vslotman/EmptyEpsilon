@@ -17,6 +17,9 @@ public:
     
     //Return the number of output channels supported by this device.
     virtual int getChannelCount() = 0;
+
+    //Configure a single channel
+    virtual bool configureChannel(int channel_id, std::unordered_map<string, string> settings) {return true;};
 };
 
 #endif//HARDWARE_OUTPUT_DEVICE_H

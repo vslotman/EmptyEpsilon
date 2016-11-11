@@ -11,6 +11,7 @@
 #include "virtualOutputDevice.h"
 #include "sACNDMXDevice.h"
 #include "uDMXDevice.h"
+#include "httpRequestDevice.h"
 #include "hardwareMappingEffects.h"
 
 HardwareController::HardwareController()
@@ -99,6 +100,9 @@ void HardwareController::handleConfig(string section, std::unordered_map<string,
             device = new StreamingAcnDMXDevice();
         else if (settings["device"] == "uDMXDevice")
             device = new UDMXDevice();
+        else if (settings["device"] == "HTTPRequestDevice")
+            device = new HTTPRequestDevice(this);
+
         if (device)
         {
             if (!device->configure(settings))
@@ -121,6 +125,14 @@ void HardwareController::handleConfig(string section, std::unordered_map<string,
             channel_mapping[settings["name"]].clear();
             channel_mapping[settings["name"]].push_back((settings["channel"].toInt() - 1));
             LOG(INFO) << "Channel #" << settings["channel"] << ": " << settings["name"];
+
+            //Configure channels
+            for (HardwareOutputDevice* device : devices)
+            {
+                if (!device->configureChannel(settings["channel"].toInt(), settings)) {
+                    LOG(ERROR) << "Failed to configure Channel #" << settings["channel"];
+                }
+            }
         }
     }else if(section == "[channels]")
     {

@@ -200,6 +200,8 @@ set(SOURCES
 	src/hardware/hardwareController.cpp
 	src/hardware/hardwareMappingEffects.cpp
 	src/hardware/hardwareOutputDevice.cpp
+	src/hardware/httpRequestDevice.cpp
+	src/hardware/httpRequestHandler.cpp
 	src/hardware/serialDriver.cpp
 	src/hardware/virtualOutputDevice.cpp
 )
