@@ -170,7 +170,7 @@ public:
     /**
      * SevCol changes
      */
-    bool can_be_destroyed = true;
+    bool can_be_destroyed;
 
     SpaceShip(string multiplayerClassName, float multiplayer_significant_range=-1);
 

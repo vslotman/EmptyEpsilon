@@ -116,6 +116,7 @@ SpaceShip::SpaceShip(string multiplayerClassName, float multiplayer_significant_
     impulse_acceleration = 20.0;
     energy_level = 1000;
     max_energy_level = 1000;
+    can_be_destroyed = true;
 
     registerMemberReplication(&target_rotation, 1.5);
     registerMemberReplication(&impulse_request, 0.1);
@@ -962,6 +963,12 @@ void SpaceShip::takeHullDamage(float damage_amount, DamageInfo& info)
         }
     }
 
+    if (((hull_strength - damage_amount) <= 0.0) &&
+         !can_be_destroyed)
+    {
+        hull_strength = 1;
+        return;
+    }
     ShipTemplateBasedObject::takeHullDamage(damage_amount, info);
 }
 
