@@ -77,6 +77,8 @@ REGISTER_SCRIPT_SUBCLASS_NO_CREATE(SpaceShip, ShipTemplateBasedObject)
     REGISTER_SCRIPT_CLASS_FUNCTION(SpaceShip, setRadarTrace);
 
     REGISTER_SCRIPT_CLASS_FUNCTION(SpaceShip, addBroadcast);
+    REGISTER_SCRIPT_CLASS_FUNCTION(SpaceShip, getNumberOfWormholesInRange);
+    REGISTER_SCRIPT_CLASS_FUNCTION(SpaceShip, getWormholeDistance);
 }
 
 SpaceShip::SpaceShip(string multiplayerClassName, float multiplayer_significant_range)
@@ -1134,6 +1136,42 @@ void SpaceShip::addBroadcast(int threshold, string message)
             }
         }
     }
+}
+
+int SpaceShip::getNumberOfWormholesInRange(int range)
+{
+	int i = 0;
+	for(P<SpaceObject> obj : getObjectsInRange(range))
+	{
+		if (P<WormHole>(obj))
+		{
+			i++;
+		}
+	}
+	return i;
+}
+
+
+float SpaceShip::getWormholeDistance(int number)
+{
+	std::vector<float> wormholes;
+	for(P<SpaceObject> obj : getObjectsInRange(1000000))
+	{
+		if (P<WormHole>(obj))
+		{
+			wormholes.push_back( P<WormHole>(obj)->getDistance(this));
+		}
+	}
+	sort(wormholes.begin(), wormholes.end());
+
+	if ((number >= 0) && (number < wormholes.size()))
+	{
+		return wormholes.at(number);
+	}
+	else
+	{
+		return 0.0f;
+	}
 }
 
 std::unordered_map<string, string> SpaceShip::getGMInfo()

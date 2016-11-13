@@ -147,3 +147,9 @@ void WormHole::setTargetPosition(sf::Vector2f v)
 {
     target_position = v;
 }
+
+float WormHole::getDistance(SpaceObject* object)
+{
+	return sqrt( pow((getPosition().x - object->getPosition().x), 2) +
+			     pow((getPosition().y - object->getPosition().y), 2));
+}
