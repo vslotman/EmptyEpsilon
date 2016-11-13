@@ -7,6 +7,7 @@
 #include "spaceObjects/explosionEffect.h"
 #include "particleEffect.h"
 #include "spaceObjects/warpJammer.h"
+#include "spaceObjects/wormHole.h"
 #include "gameGlobalInfo.h"
 
 #include "scriptInterface.h"
@@ -1152,7 +1153,7 @@ int SpaceShip::getNumberOfWormholesInRange(int range)
 }
 
 
-float SpaceShip::getWormholeDistance(int number)
+float SpaceShip::getWormholeDistance(unsigned int number)
 {
 	std::vector<float> wormholes;
 	for(P<SpaceObject> obj : getObjectsInRange(1000000))

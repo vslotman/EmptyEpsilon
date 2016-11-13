@@ -404,7 +404,7 @@ public:
     void addBroadcast(int threshold, string message);
 
     int getNumberOfWormholesInRange(int range);
-    float getWormholeDistance(int number);
+    float getWormholeDistance(unsigned int number);
 
     //Return a string that can be appended to an object create function in the lua scripting.
     // This function is used in getScriptExport calls to adjust for tweaks done in the GM screen.
