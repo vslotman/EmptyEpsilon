@@ -35,3 +35,9 @@ thumbs.db
 *.swp
 
 options.ini
+logs/*
+*.*project
+CMakeCache.txt
+CMakeFiles/*
+CPack*
+*.log
