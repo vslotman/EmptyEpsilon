@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 2.8.12)
 
 option(ENABLE_CRASH_LOGGER "Enable the drmingw crash logging facilities" OFF)
 
+set(SEVCOL_VERSION "Sevcol November 2016 [test]")
+
 # Check if serious proton dir is set.
 if(NOT DEFINED SERIOUS_PROTON_DIR)
  message(FATAL_ERROR "SERIOUS_PROTON_DIR was not set. Unable to continue")
@@ -321,7 +323,7 @@ foreach(SP_SOURCE
 endforeach()
 
 add_definitions(-DWINDOW_TITLE="EmptyEpsilon")
-add_definitions(-DVERSION_NUMBER=${CPACK_PACKAGE_VERSION_MAJOR}${CPACK_PACKAGE_VERSION_MINOR}${CPACK_PACKAGE_VERSION_PATCH})
+add_definitions(-DVERSION_NUMBER=${SEVCOL_VERSION})
 if(ENABLE_CRASH_LOGGER)
   add_definitions(-DENABLE_CRASH_LOGGER)
   if(WIN32)
