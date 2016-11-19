@@ -46,6 +46,7 @@ private:
     GuiToggleButton* pause_button;
     GuiToggleButton* intercept_comms_button;
     GuiButton* tweak_button;
+    GuiToggleButton* wormhole_activation_button;
     GuiButton* copy_scenario_button;
     GuiButton* copy_selected_button;
     GuiSelector* player_ship_selector;
