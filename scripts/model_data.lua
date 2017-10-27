@@ -588,7 +588,7 @@ end
 model = ModelData()
 model:setName("Celestra")
 model:setMesh("colcels1cox (repaired and turned good).obj")
-model:setTexture("celestra.png")
+model:setTexture("celestra_texture.png")
 model:setIllumination("celesta_glow.png")
 model:setScale(0.6):setRadius(110)
 model:setCollisionBox(280, 100)
