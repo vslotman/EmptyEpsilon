@@ -49,6 +49,7 @@ private:
     GuiButton* copy_scenario_button;
     GuiButton* copy_selected_button;
     GuiSelector* player_ship_selector;
+    GuiToggleButton* wormhole_activation_button;
     
     enum EClickAndDragState
     {

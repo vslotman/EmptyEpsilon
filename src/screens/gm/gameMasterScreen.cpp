@@ -111,6 +111,16 @@ GameMasterScreen::GameMasterScreen()
     });
     tweak_button->setPosition(20, -120, ABottomLeft)->setSize(250, 50)->hide();
 
+    wormhole_activation_button = new GuiToggleButton(this, "ACTIVATE_WORMHOLE", "Activate", [this](bool value) {
+        for(P<WormHole> obj : targets.getTargets())
+        {
+            if (P<WormHole>(obj))
+                obj->setActive(value);
+        }
+    });
+    wormhole_activation_button->setPosition(20, -170, ABottomLeft)->setSize(250, 50)->hide();
+
+
     player_comms_hail = new GuiButton(this, "HAIL_PLAYER", "Hail ship", [this]() {
         for(P<SpaceObject> obj : targets.getTargets())
         {
@@ -208,6 +218,7 @@ void GameMasterScreen::update(float delta)
     bool has_object = false;
     bool has_cpu_ship = false;
     bool has_player_ship = false;
+    bool has_wormhole = false;
 
     // Add and remove entries from the player ship list.
     for(int n=0; n<GameGlobalInfo::max_player_ships; n++)
@@ -239,6 +250,8 @@ void GameMasterScreen::update(float delta)
             has_cpu_ship = true;
         else if (P<PlayerSpaceship>(obj))
             has_player_ship = true;
+        else if (P<WormHole>(obj))
+            has_wormhole = true;
     }
 
     // Show player ship selector only if there are player ships.
@@ -250,6 +263,7 @@ void GameMasterScreen::update(float delta)
     order_layout->setVisible(has_cpu_ship);
     gm_script_options->setVisible(!has_cpu_ship);
     player_comms_hail->setVisible(has_player_ship);
+    wormhole_activation_button->setVisible(has_wormhole);
     
     std::unordered_map<string, string> selection_info;
 
