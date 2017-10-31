@@ -3,9 +3,8 @@
 
 #include "engine.h"
 
-#ifndef VERSION_NUMBER
-#define VERSION_NUMBER 0x0000
-#endif
+#undef VERSION_NUMBER
+#define VERSION_NUMBER 201711
 
 extern sf::Vector3f camera_position;
 extern float camera_yaw;
